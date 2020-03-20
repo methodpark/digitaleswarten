@@ -15,4 +15,4 @@ COPY . /app
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "app.py" ]
+CMD [ "digitales_warten.py" ]
