@@ -13,6 +13,9 @@ function* queueSaga(action: any) {
     try {
       const response = yield call(fetch, `/places/${action.placeId}/queues`, {
         method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({queueName: action.name})
       });
       if (response.ok) {
