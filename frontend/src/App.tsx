@@ -1,6 +1,5 @@
 import React from 'react';
 import logo from './logo.svg';
-import Queue from './queue/Queue';
 import './App.css';
 
 function App() {
@@ -20,7 +19,6 @@ function App() {
           Learn React
         </a>
       </header>
-      <Queue />
     </div>
   );
 }
