@@ -19,5 +19,7 @@ if not db_file.is_file():
     db_file.parent.absolute().mkdir(parents=True, exist_ok=True)
     from models.slot import Slot
     from models.queue import Queue
+    from models.place import Place, generate_default_place
     db.create_all()
+    db.session.add(generate_default_place())
     db.session.commit()
