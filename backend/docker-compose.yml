@@ -1,0 +1,14 @@
+version: '3'
+services:
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 5000:5000
+    tests:
+        build:
+            context: .
+            dockerfile: tests.Dockerfile
+        depends_on:
+            - backend
