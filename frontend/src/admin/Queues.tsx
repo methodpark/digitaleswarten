@@ -3,9 +3,10 @@ import { Queue as QueueModel } from '../model/queue';
 import { Person } from '../model/person';
 import { AppState } from '../state/state';
 import { connect } from 'react-redux';
+import { SectionBox, InnerBox } from './Boxes';
 
 const Queue = (props: {queue: QueueModel}) => {
-  const {entries = []} = props.queue;
+  const {entries = [], name=""} = props.queue;
 
   const buttonArea = () => (<div>
     <button>Aufrufen</button>
@@ -19,20 +20,22 @@ const Queue = (props: {queue: QueueModel}) => {
     </li>
   ));
 
-  return (<ul>
-    { personEntries.length !== 0 ? personEntries : 'Diese Warteliste ist leer.' }
-  </ul>);
+  return (
+    <InnerBox name={name}>
+      <ul>
+        { personEntries.length !== 0 ? personEntries : 'Diese Warteliste ist leer.' }
+      </ul>
+    </InnerBox>
+  );
 };
 
 const Queues = (props: AppState) => {
   const {queues = []} = props;
 
   return (
-    <section>
-      <h2>Warteschlangen</h2>
-
-      {queues.map(queue => <Queue queue={queue}></Queue>)}
-    </section>
+    <SectionBox name="Warteschlangen">
+      {queues.map(queue => <Queue key={queue.id} queue={queue}></Queue>)}
+    </SectionBox>
   )
 }
 

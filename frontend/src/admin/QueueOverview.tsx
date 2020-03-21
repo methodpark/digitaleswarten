@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { InnerBox, SectionBox } from './Boxes';
+
 import { Queue } from '../model/queue';
 import { AppState } from '../state/state';
 import { connect } from 'react-redux';
@@ -8,22 +10,18 @@ const QueuesOverview = (props: AppState) => {
 
   const {queues = []} = props;
 
-  const renderSubArea = (queue: Queue) => (
-    <div key={queue.id} className="sub-area">
-      <span className="area-heading">{queue.name}</span>
-
+  const renderIndividualQueues = (queue: Queue) => (
+    <InnerBox name={queue.name} key={queue.id}>
       Es warten derzeit {queue.entries.length} Personen.
-    </div>
+    </InnerBox>
   );
 
   return (
-    <section>
-      <h2>Warteschlangen-Übersicht</h2>
-
-      {queues.map(renderSubArea)}
-    </section>
-    );
-}
+    <SectionBox name="Warteschlangen-Übersicht">
+      {queues.map(renderIndividualQueues)}
+    </SectionBox>
+  );
+};
 
 const mapStateToProps = (state: AppState) => state;
 
