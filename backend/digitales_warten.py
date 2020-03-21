@@ -38,5 +38,19 @@ def create_queue(place_id):
     return jsonify(id=queue.id, name=queue.name)
 
 
+@app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
+def delete_queue(place_id, queue_id):
+    place = Place.query.filter_by(id=place_id).first()
+    if place is None:
+        abort(404)
+    queue = Queue.query.filter_by(id=queue_id) \
+                       .filter_by(place=place).first()
+    if queue is None:
+        abort(404)
+    db.session.delete(queue)
+    db.session.commit()
+    return str("OK")
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
