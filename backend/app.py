@@ -11,8 +11,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{SQLITE_FILE}'
 db = SQLAlchemy(app)
 
-if not Path.is_file(SQLITE_FILE):
-    Path(SQLITE_FILE).parent.absolute().mkdir(parents=True, exist_ok=True)
+db_file = Path(SQLITE_FILE)
+if not db_file.is_file():
+    db_file.parent.absolute().mkdir(parents=True, exist_ok=True)
     from models.slot import Slot
     from models.queue import Queue
     db.create_all()
