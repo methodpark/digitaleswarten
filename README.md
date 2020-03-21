@@ -2,8 +2,8 @@
 Teil des [Wir Vs Virus Hackathon](https://wirvsvirushackathon.org/). 
 
 ## Die Challenge
-Im Zuge der Ausbreitung des Choronavirus (SARS-CoV-2), werden zusätzliche Patienten deutsche Wartezimmer füllen.
-Durch die Versammlung kranker Menschen in den Wartezimmern der Artzpraxen stellen diese jedoch einen ideallen Ansteckungsort für noch nicht infizierte dar.
+Im Zuge der Ausbreitung des Coronavirus (SARS-CoV-2) werden zusätzliche Patienten deutsche Wartezimmer füllen.
+Durch die Versammlung kranker Menschen in den Wartezimmern der Artzpraxen stellen diese jedoch einen idealen Ansteckungsort für noch nicht Infizierte dar.
 Unser Ziel ist es, eine technische Lösung zu entwickeln, wie der Füllgrad von Wartezimmern im Idealfall auf 0 reduziert werden kann.
 
 ## Die Lösung
@@ -14,7 +14,7 @@ Inspiration hierzu sind die gut bekannten Abreissnummern, wie man sie in deutsch
 2. Die Patienten erhalten einen Überblick über die aktuelle Wartelage für ihre Warteschlange.
 3. Die Arztpraxis hat die Möglichkeit Patienten zu benachrichtigen, dass sie die Praxis jetzt oder bald betreten können.
 
-Hierdurch soll die Anzahl Personen, die sich in einem Wartezimmer aufhalten reduziert werden oder sogar komplett auf das Warten im Wartezimmer verzichtet werden
+Hierdurch soll die Anzahl Personen, die sich in einem Wartezimmer aufhalten reduziert werden oder sogar komplett auf das Warten im Wartezimmer verzichtet werden.
 
 ## Links
 
