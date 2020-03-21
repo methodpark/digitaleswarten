@@ -122,3 +122,14 @@ Zustand der Warteschlange abrufen
 > ticketNumber: number}\[\] }\[\]
 >
 > Answer: 4xx/Not ok
+
+Zustand der Warteschlange über place-id und ticketNumber abfragen
+-----------------------------------------------------------------
+
+> WEBSOCKET
+> HTTP-GET: ws:HOST/places/**\<place-id\>**/**\<ticket-number>**
+>
+> Answer: 200/OK;\
+> JSON-Payload: { queueSize: number, hasBeenCalled: boolean }
+>
+> Answer: 4xx/Not ok
