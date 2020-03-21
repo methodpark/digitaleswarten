@@ -10,6 +10,10 @@ class Place(db.Model):
         return f'<Place {self.id}>'
 
 def generate_default_place():
+    '''
+        This function is only here until a method has been implemented
+        to generate new places. Until then, we'll create a default place.
+    '''
     password = 'Admin'
     password_hash = generate_password_hash(password, 'sha256')
     place_id = generate_place_id()
