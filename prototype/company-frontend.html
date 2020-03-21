@@ -1,0 +1,216 @@
+<html>
+  <head>
+    <title>Interface für Firmen</title>
+
+    <style>
+      body {
+        background: #fafafa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      :root {
+        --highlight-color: #900;
+        --main-padding: 8px;
+        --secondary-padding: 2px;
+        --main-margin: 8px;
+        --main-border: 1px solid #aaa;
+        --main-shadow: 1px 1px 3px #dcdcdc;
+        --secondary-border: 1px solid #ddd;
+      }
+
+      h1 {
+        color: var(--highlight-color);
+      }
+
+      section {
+        padding: var(--main-padding);
+        border: var(--main-border);
+        background: white;
+        margin: var(--main-margin);
+        box-shadow: var(--main-shadow);
+        flex: 1;
+        border-radius: 2px;
+      }
+
+      button, select, input, textarea {
+        border: var(--main-border);
+        box-shadow: var(--main-shadow);
+        margin: 0px
+      }
+
+      button, select {
+        cursor: pointer;
+      }
+
+      select, input, textarea {
+        box-shadow: none;
+      }
+
+      h2 {
+        color: var(--highlight-color);
+        border-bottom: var(--secondary-border);
+        margin: 0px;
+        margin-bottom: 1rem;
+      }
+
+      .sub-area {
+        margin: 1rem var(--main-margin);
+        border: var(--secondary-border);
+        border-radius: 2px;
+        position: relative;
+        padding: 1rem var(--main-padding) 0.5rem var(--main-padding);
+      }
+
+      span.area-heading {
+        display: block;
+        position: absolute;
+        top: -0.5rem;
+        left: 5px;
+        background: white;
+        color: var(--highlight-color);
+      }
+
+      .queue-list li {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: var(--secondary-padding);
+      }
+
+      .queue-list li button {
+        justify-self: flex-end;
+        margin: 0px var(--main-margin);
+      }
+
+      .form-area {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-row-gap: var(--secondary-padding);
+      }
+
+      span.optional-star {
+        color: var(--highlight-color);
+      }
+
+      .main-container {
+        display: flex;
+        width: 100%;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      .create-person textarea {
+        min-height: 5rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Warte Frei</h1>
+
+    <div class="main-container">
+      <main>
+        <section class="create-person">
+          <h2>Personen anlegen</h2>
+
+          <div class="form-area">
+            <label for="create-person-queue-name">Warteschlange: </label>
+            <select id="create-person-queue-name" name="queue">
+              <option value="">Notfall</option>
+              <option value="">Termin</option>
+              <option value="">Covid</option>
+            </select>
+
+            <label for="create-person-person-name">Name<span class="optional-star">*</span>:</label>
+            <input id="create-person-person-name" type="text" name="name" placeholder="Name">
+
+            <label for="create-person-free-text">Freitext<span class="optional-star">*</span>:</label>
+            <textarea id="create-person-free-text" placeholder="Freitext"></textarea>
+
+            <span class="explanation"><span class="optional-star">*</span>: optional, wird nicht auf dem server gespeichert </span>
+            <div class="button-area"><button>Anlegen</button></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Warteschlangen</h2>
+
+          <div class="sub-area queue">
+            <span class="area-heading">Not</span>
+            <span class="queue-empty">Diese Warteliste ist leer.</span>
+          </div>
+
+          <div class="sub-area queue">
+            <span class="area-heading">Termin</span>
+            <ul class="queue-list">
+              <li><span class="queue-entry-name">Peter Müller</span> <div><button>Aufrufen</button><button>Löschen, ohne aufzurufen</button></div></li>
+              <li><span class="queue-entry-name">Franz Meier</span> <div><button>Aufrufen</button><button>Löschen, ohne aufzurufen</button></div></li>
+              <li><span class="queue-entry-name">Jonas Dingeldei</span> <div><button>Aufrufen</button><button>Löschen, ohne aufzurufen</button></div></li>
+            </ul>
+          </div>
+
+          <div class="sub-area queue">
+            <span class="area-heading">Covid-19</span>
+            <ul class="queue-list">
+              <li><span class="queue-entry-name">Tobias Schuster</span> <div><button>Aufrufen</button><button>Löschen, ohne aufzurufen</button></div></li>
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <aside>
+        <section>
+          <h2>Warteschlangen-Übersicht</h2>
+
+          <div class="sub-area">
+            <span class="area-heading">Notfall</span>
+
+            Es warten derzeit 0 Personen.
+          </div>
+
+          <div class="sub-area">
+            <span class="area-heading">Termin</span>
+
+            Es warten derzeit 3 Personen.
+          </div>
+
+          <div class="sub-area">
+            <span class="area-heading">Covid-19</span>
+
+            Es warten derzeit 1 Personen.
+          </div>
+        </section>
+
+        <section>
+          <h2>Warteschlangen-Verwaltung</h2>
+
+          <div class="sub-area">
+            <span class="area-heading">Warteschlange anlegen</span>
+
+            <div class="form-area">
+              <label for="create-queue-queue-name">Name:</label>
+              <input id="create-queue-queue-name" placeholder="Name">
+
+              <div class="button-area">
+                <button>anlegen</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-area">
+            <span class="area-heading">Warteschlange löschen</span>
+            <div class="form-area">
+              <span>Notfall</span> <button>Löschen</button>
+              <span>Termin</span> <button>Löschen</button>
+              <span>Covid-19</span> <button>Löschen</button>
+            </div>
+
+          </div>
+        </section>
+      </aside>
+    </div>
+  </body>
+</html>
