@@ -1,7 +1,5 @@
 FROM python
 
-MAINTAINER Your Name "felix.braeunling@methodpark.de"
-
 RUN apt-get update -y
 
 # We copy just the requirements.txt first to leverage Docker cache
