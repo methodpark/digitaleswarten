@@ -1,11 +1,6 @@
-export interface Person {
-  id: string;
-  name: string;
-  ticketNumber: number;
-}
+import { Queue } from "../model/queue";
 
-export type PublicPerson = Omit<Person, 'name'>;
 
 export interface AppState {
-  persons: Person[];
+  queues: Queue[];
 }
