@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from app import app, db
 from models.slot import Slot
 from models.queue import Queue
