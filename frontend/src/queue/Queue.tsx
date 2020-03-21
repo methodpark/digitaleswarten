@@ -1,17 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { AppState, Person } from '../state/state';
+import { Queue } from '../model/queue';
+import { Person } from '../model/person';
 
 
-const Queue = (props: AppState) => {
-  const {persons = []} = props;
+const Queue = (props: {queue: Queue}) => {
+  const {entries = []} = props.queue;
 
-  const renderedEntries = persons.map((person: Person)  => <li key={person.id}>{person.name}</li>);
+  const renderedEntries = entries.map((person: Person)  => (
+    <li key={person.id}>{person.name}</li>
+  ));
+
   return (<ul>
     {renderedEntries}
-  </ul>)
+  </ul>);
 };
 
-const mapStateToProps = (state: AppState) => state;
-
-export default connect(mapStateToProps)(Queue);
+export default Queue;
