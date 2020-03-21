@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 
 import { InnerBox, SectionBox } from './Boxes';
 
 import { Queue } from '../model/queue';
 import { AppState } from '../state/state';
+import { createQueueCreator } from '../state/backend';
 import { connect } from 'react-redux';
 
-const QueuesManagement = (props: AppState) => {
+const QueuesManagement = (props: AppState & { dispatch: any }) => {
 
   const {queues = []} = props;
 
   const renderQueueDeleteLine = (queue: Queue) => (
-    <><span>{queue.name}</span> <button>Löschen</button></>
+    <Fragment key={queue.id}><span>{queue.name}</span> <button>Löschen</button></Fragment>
   );
 
   return (
@@ -31,6 +32,7 @@ const QueuesManagement = (props: AppState) => {
           {queues.map(renderQueueDeleteLine)}
         </div>
       </InnerBox>
+      <button onClick={() => props.dispatch(createQueueCreator("placeid", "CoViD"))}>Create "CoViD" Queue</button>
     </SectionBox>
   );
 };
