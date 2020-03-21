@@ -14,4 +14,4 @@ class TestQueueIntegration:
         assert '1' == returned_queue_id.content.decode('utf-8')
 
     def test_create_slot(self, queue_id):
-        assert '1' == requests.post(f'{self.host}/slot/{queue_id}').content.decode('utf-8')
+        assert '1' == requests.post(f'{self.host}/queue/{queue_id}/slot').content.decode('utf-8')
