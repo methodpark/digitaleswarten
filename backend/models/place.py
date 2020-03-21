@@ -6,6 +6,7 @@ import logging
 class Place(db.Model):
     id = db.Column(db.String, primary_key=True)
     password = db.Column(db.String)
+    name = db.Column(db.String)
 
     def __repr__(self):
         return f'<Place {self.id}>'

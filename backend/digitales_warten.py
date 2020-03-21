@@ -8,7 +8,7 @@ from app import app, db
 from models.place import Place
 from models.queue import Queue
 from models.slot import Slot
-from utils.id_generator import generate_queue_id
+from utils.id_generator import generate_queue_id, generate_place_id
 
 from tornado.log import enable_pretty_logging
 enable_pretty_logging()
@@ -16,6 +16,23 @@ enable_pretty_logging()
 @app.route('/')
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
+
+@app.route('/places', methods=['POST'])
+def create_place():
+    if 'application/json' not in request.headers['Content-Type']:
+        abort(400)
+    data = request.json
+    if 'placeName' not in data:
+        abort(400)
+    place_name = data['placeName']
+    # TODO: Password creation
+    place_password = 'Admin'
+    place_id = generate_place_id()
+    new_place = Place(id=place_id, password=place_password, name=place_name)
+    db.session.add(new_place)
+    db.session.commit()
+    return jsonify(id=new_place.id, name=new_place.name)
+
 
 @app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
