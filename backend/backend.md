@@ -8,6 +8,9 @@ To run integration tests:
 
 # Running locally
 
+To specify the database location run
+`export SQLITE_LOCATION=<db_path>`
+
 To start the backend locally run
 ```
 pip install -r requirements.txt
