@@ -2,6 +2,7 @@
 from flask import request, abort, jsonify
 from app import app, db
 from models.slot import Slot
+from models.place import Place
 from models.queue import Queue
 from utils.id_generator import generate_queue_id
 
@@ -24,10 +25,13 @@ def create_queue(place_id):
     data = request.json
     if 'queueName' not in data:
         abort(400)
+    place = Place.query.filter_by(id=place_id).first()
+    if place is None:
+        abort(404)
     # Check password here
     queueName = data['queueName']
     queue_id = generate_queue_id(queueName)
-    queue = Queue(id=queue_id, name=queueName)
+    queue = Queue(id=queue_id, name=queueName, place=place)
     db.session.add(queue)
     db.session.commit()
     return jsonify(id=queue.id, name=queue.name)
