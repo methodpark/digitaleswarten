@@ -15,5 +15,6 @@ db = SQLAlchemy(app)
 if not isfile(SQLITE_FILE):
     Path(SQLITE_FILE).parent.absolute().mkdir(parents=True, exist_ok=True)
     from models.slot import Slot
+    from models.queue import Queue
     db.create_all()
     db.session.commit()
