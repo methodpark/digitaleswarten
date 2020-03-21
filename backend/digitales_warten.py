@@ -100,7 +100,7 @@ def delete_queue(place_id, queue_id):
     db.session.commit()
     return ''
 
-@app.route('/places/<place_id>/queues/<queue_id>', methods=['POST'])
+@app.route('/places/<place_id>/queues/<queue_id>/entries', methods=['POST'])
 def add_entry(place_id, queue_id):
     place = Place.query.filter_by(id=place_id).first()
     if place is None:
