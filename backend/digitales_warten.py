@@ -17,14 +17,6 @@ enable_pretty_logging()
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
 
-@app.route('/queue/<queue_id>/slot', methods=['POST'])
-def create_slot(queue_id):
-    queue = Queue.query.filter_by(id=queue_id).first()
-    slot = Slot(queue=queue)
-    db.session.add(slot)
-    db.session.commit()
-    return str(slot.id)
-
 @app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
     if 'application/json' not in request.headers['Content-Type']:
@@ -62,3 +54,12 @@ if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(5000)
     IOLoop.instance().start()
+
+
+@app.route('/queue/<queue_id>/slot', methods=['POST'])
+def create_slot(queue_id):
+    queue = Queue.query.filter_by(id=queue_id).first()
+    slot = Slot(queue=queue)
+    db.session.add(slot)
+    db.session.commit()
+    return str(slot.id)
