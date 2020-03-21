@@ -112,7 +112,8 @@ def add_entry(place_id, queue_id):
         abort(400)
     entry_name = data['name']
     entry_id = generate_entry_id(entry_name)
-    ticket_number = Slot.query.filter_by(queue=queue).count() + 1
+    largest_previous_ticket_number = db.session.query(db.func.max(Slot.ticket_number)).scalar()
+    ticket_number = largest_previous_ticket_number + 1 if largest_previous_ticket_number else 1
     slot = Slot(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
     db.session.add(slot)
     db.session.commit()
