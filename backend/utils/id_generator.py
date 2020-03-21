@@ -43,3 +43,4 @@ def generate_queue_id(queue_name):
     name_hash = hasher.hexdigest()[:4] 
     time_stamp = str(int(time.time()))[-2:]
     return name_hash + time_stamp
+
