@@ -1,6 +1,5 @@
-from app import app
-
-Slot_Counter = 0
+from app import app, db
+from models.slot import Slot
 
 @app.route('/')
 def hello_world():
@@ -9,10 +8,10 @@ def hello_world():
 
 @app.route('/slot')
 def print_slot():
-    global Slot_Counter
-    temp = Slot_Counter
-    Slot_Counter += 1
-    return str(temp)
+    slot = Slot()
+    db.session.add(slot)
+    db.session.commit()
+    return str(slot.id)
 
 
 if __name__ == '__main__':
