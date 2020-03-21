@@ -23,3 +23,7 @@ class TestBackendIntegration:
 
     def test_create_queue(self, queue_id):
         assert queue_id
+
+    def test_get_queue_state(self, place_id, queue_id):
+        place_response = requests.get(f'{self.host}/places/{place_id}/queues?personDetails=short')
+        assert place_response
