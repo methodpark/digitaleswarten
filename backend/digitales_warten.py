@@ -49,7 +49,7 @@ def delete_queue(place_id, queue_id):
         abort(404)
     db.session.delete(queue)
     db.session.commit()
-    return str("OK")
+    return ''
 
 
 if __name__ == '__main__':
