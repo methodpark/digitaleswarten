@@ -1,38 +1,102 @@
-.App {
-  text-align: center;
+:root {
+  --highlight-color: #900;
+  --main-padding: 8px;
+  --secondary-padding: 2px;
+  --main-margin: 8px;
+  --main-border: 1px solid #aaa;
+  --main-shadow: 1px 1px 3px #dcdcdc;
+  --secondary-border: 1px solid #ddd;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  background: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+h1 {
+  color: var(--highlight-color);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+section {
+  padding: var(--main-padding);
+  border: var(--main-border);
+  background: white;
+  margin: var(--main-margin);
+  box-shadow: var(--main-shadow);
+  flex: 1;
+  border-radius: 2px;
+}
+
+button, select, input, textarea {
+  border: var(--main-border);
+  box-shadow: var(--main-shadow);
+  margin: 0px
+}
+
+button, select {
+  cursor: pointer;
+}
+
+select, input, textarea {
+  box-shadow: none;
+}
+
+h2 {
+  color: var(--highlight-color);
+  border-bottom: var(--secondary-border);
+  margin: 0px;
+  margin-bottom: 1rem;
+}
+
+.sub-area {
+  margin: 1rem var(--main-margin);
+  border: var(--secondary-border);
+  border-radius: 2px;
+  position: relative;
+  padding: 1rem var(--main-padding) 0.5rem var(--main-padding);
+}
+
+span.area-heading {
+  display: block;
+  position: absolute;
+  top: -0.5rem;
+  left: 5px;
+  background: white;
+  color: var(--highlight-color);
+}
+
+.queue-list li {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: var(--secondary-padding);
+}
+
+.queue-list li button {
+  justify-self: flex-end;
+  margin: 0px var(--main-margin);
+}
+
+.form-area {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-row-gap: var(--secondary-padding);
+}
+
+span.optional-star {
+  color: var(--highlight-color);
+}
+
+.main-container {
+  display: flex;
+  width: 100%;
+}
+
+main {
+  flex: 1;
+}
+
+#create-person-free-text {
+  min-height: 5rem;
 }
