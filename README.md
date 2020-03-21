@@ -19,3 +19,9 @@ Hierdurch soll die Anzahl Personen, die sich in einem Wartezimmer aufhalten redu
 ## Links
 
 * [DevPost Digitales Warten](https://devpost.com/software/digitales-warten)
+
+## UX draft
+
+![Warte Frei UX Draft](prototype/wartefreiux.gif)  
+
+WarteFrei UX Draft
