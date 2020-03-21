@@ -123,13 +123,14 @@ Zustand der Warteschlange abrufen
 >
 > Answer: 4xx/Not ok
 
-Zustand der Warteschlange über place-id und ticketNumber abfragen
+Zustand der Warteschlange über place-id und ticked-id abfragen
 -----------------------------------------------------------------
 
-> WEBSOCKET
-> HTTP-GET: ws:HOST/places/**\<place-id\>**/**\<ticket-number>**
+Ticket ID und Place ID erhält der Patient von der Praxis.
+
+> HTTP-GET: /places/**\<place-id\>**/**\<ticket-id\>**
 >
 > Answer: 200/OK;\
-> JSON-Payload: { queueSize: number, hasBeenCalled: boolean }
+> JSON-Payload: { queueSize: number; hasBeenCalledToFrontdesk: boolean }
 >
 > Answer: 4xx/Not ok

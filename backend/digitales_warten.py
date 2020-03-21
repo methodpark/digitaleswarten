@@ -16,6 +16,8 @@ from tornado.log import enable_pretty_logging
 import json
 enable_pretty_logging()
 
+import random
+
 @app.route('/')
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
@@ -187,3 +189,12 @@ if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(5000)
     IOLoop.instance().start()
+
+@app.route('/places/<place_id>/<ticket_id>', methods=['GET'])
+def inform_patient(place_id, ticket_id):
+    """
+    # TODO Calculate the number of tickets before this one.
+    # TODO Inform frontend that this user has been called by returning true
+    # TODO Implement as websocket
+    """
+    return jsonify(queueSize=5, hasBeenCalledToFrontdesk=(random.random()<0.2))
