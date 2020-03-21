@@ -29,9 +29,9 @@ def create_queue(place_id):
     if place is None:
         abort(404)
     # Check password here
-    queueName = data['queueName']
-    queue_id = generate_queue_id(queueName)
-    queue = Queue(id=queue_id, name=queueName, place=place)
+    queue_name = data['queueName']
+    queue_id = generate_queue_id(queue_name)
+    queue = Queue(id=queue_id, name=queue_name, place=place)
     db.session.add(queue)
     db.session.commit()
     return jsonify(id=queue.id, name=queue.name)
