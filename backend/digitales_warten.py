@@ -14,7 +14,7 @@ def create_queue():
     return str(queue.id)
 
 @app.route('/slot/<queue_id>', methods=['POST'])
-def print_slot(queue_id):
+def create_slot(queue_id):
     queue = Queue.query.filter_by(id=queue_id).first()
     slot = Slot(queue=queue)
     db.session.add(slot)
