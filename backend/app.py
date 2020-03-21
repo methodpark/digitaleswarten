@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 db_file = Path(sqlite_location)
 if not db_file.is_file():
     db_file.parent.absolute().mkdir(parents=True, exist_ok=True)
-    from models.slot import Slot
+    from models.entry import Entry
     from models.queue import Queue
     from models.place import Place, generate_default_place
     db.create_all()
