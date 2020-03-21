@@ -1,6 +1,7 @@
 from app import db
 from werkzeug.security import generate_password_hash
 from utils.id_generator import generate_place_id
+import logging
 
 class Place(db.Model):
     id = db.Column(db.String, primary_key=True)
@@ -17,5 +18,5 @@ def generate_default_place():
     password = 'Admin'
     password_hash = generate_password_hash(password, 'sha256')
     place_id = generate_place_id()
-    print(f'==== Generated default place is: {place_id}')
+    logging.warning(f'==== Generated default place is: {place_id}')
     return Place(id=place_id, password=password_hash)
