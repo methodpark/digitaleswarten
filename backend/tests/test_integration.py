@@ -1,8 +1,12 @@
+import os
 import pytest
 import requests
 
+
+
 class TestQueueIntegration:
-    host = 'http://localhost:5000'
+    host_name = os.getenv('BACKEND_HOSTNAME', default='backend')
+    host = f'http://{host_name}:5000'
 
     @pytest.fixture
     def queue_id(self):
