@@ -134,6 +134,25 @@ def add_entry(place_id, queue_id):
     db.session.commit()
     return jsonify(id=entry_id, name=entry_name, ticketNumber=ticket_number)
 
+@app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
+def delete_entry(place_id, queue_id, entry_id):
+    place = Place.query.filter_by(id=place_id).first()
+    if place is None:
+        abort(404)
+
+    queue = Queue.query.filter_by(id=queue_id) \
+                       .filter_by(place=place).first()
+    if queue is None:
+        abort(404)
+
+    entry = Entry.query.filter_by(id=entry_id) \
+                       .filter_by(queue=queue).first()
+    if entry is None:
+        abort(404)
+    db.session.delete(entry)
+    db.session.commit()
+    return ''
+
 
 if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
