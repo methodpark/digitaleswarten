@@ -10,6 +10,9 @@ from models.queue import Queue
 from models.slot import Slot
 from utils.id_generator import generate_queue_id
 
+from tornado.log import enable_pretty_logging
+enable_pretty_logging()
+
 @app.route('/')
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
