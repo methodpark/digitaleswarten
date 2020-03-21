@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import json
 from flask import request, abort, jsonify
 from tornado.ioloop import IOLoop
 from tornado.wsgi import WSGIContainer
@@ -12,7 +11,7 @@ from models.slot import Slot
 from utils.id_generator import generate_queue_id, generate_place_id
 
 from tornado.log import enable_pretty_logging
-import logging
+import json
 enable_pretty_logging()
 
 @app.route('/')
@@ -65,9 +64,7 @@ def get_queue_state(place_id):
         abort(404)
     
     attached_queues = Queue.query.filter_by(place=place).all()
-    logging.warning(attached_queues)
     if not len(attached_queues):
-        logging.warning("no_queues_found")
         return json.dumps([])
     queue_states = []
     for attached_queue in attached_queues:
@@ -79,12 +76,12 @@ def get_queue_state(place_id):
                            'ticketNumber': waiting_entry.ticket_number
                         } 
                 queue_entries.append(entry)
+
         queue = { 'id': attached_queue.id,
                   'name': attached_queue.name,
                   'entries': queue_entries
                 }
         queue_states.append(queue)
-    logging.warning(queue_states)
     return json.dumps(queue_states)
         
 
