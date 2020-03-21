@@ -1,9 +1,9 @@
 import React from 'react';
-import { Queue } from '../model/queue';
+import { Queue as QueueModel } from '../model/queue';
 import { Person } from '../model/person';
 
 
-const Queue = (props: {queue: Queue}) => {
+const Queue = (props: {queue: QueueModel}) => {
   const {entries = []} = props.queue;
 
   const renderedEntries = entries.map((person: Person)  => (
