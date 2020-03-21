@@ -26,7 +26,7 @@ HTTP-GET /places/\<place-id\>/bearerToken?password=\<pass\>
 ----------------------
 
 > HTTP-POST: /places/\<place-id\>/queues\
-> Payload: JSON { queueName: string; }
+> JSON-Payload:  { queueName: string; }
 >
 > Answer: 200/OK;\
 > JSON-Payload: { id: string; queueName: string; }
@@ -62,7 +62,7 @@ Personen-IDs anlegen
 
 > HTTP-POST: /places/\<places-id\>/queues/\<queue-id\>/entries
 >
-> Payload: JSON { name: string; }
+> JSON-Payload: { name: string; }
 >
 > Answer: 200/OK; JSON-Payload: { id: string; name: string;
 > ticketNumber: number }
@@ -80,6 +80,7 @@ Personen-IDs aus Queues entfernen
 > Answer: 4xx/Not ok
 
 APIS für Patientenansicht
+=========================
 
 Auth: Public
 
