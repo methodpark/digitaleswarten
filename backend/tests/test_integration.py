@@ -1,21 +1,25 @@
+import json
 import os
 import pytest
 import requests
 
-
-
-class TestQueueIntegration:
+class TestBackendIntegration:
     host_name = os.getenv('BACKEND_HOSTNAME', default='backend')
     host = f'http://{host_name}:5000'
 
     @pytest.fixture
-    def queue_id(self):
-        return requests.post(f'{self.host}/queue')
+    def place_id(self):
+        place_response = requests.post(f'{self.host}/places', json={'placeName': 'TestPraxis'})
+        return place_response.json()['id']
 
+    @pytest.fixture
+    def queue_id(self, place_id):
+        queue_response = requests.post(f'{self.host}/places/{place_id}/queues',
+                                       json={'queueName': 'TestQueue'})
+        return queue_response.json()['id']
+
+    def test_create_place(self, place_id):
+        assert place_id
 
     def test_create_queue(self, queue_id):
-        returned_queue_id = queue_id
-        assert '1' == returned_queue_id.content.decode('utf-8')
-
-    def test_create_slot(self, queue_id):
-        assert '1' == requests.post(f'{self.host}/queue/{queue_id}/slot').content.decode('utf-8')
+        assert queue_id
