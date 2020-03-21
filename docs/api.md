@@ -22,6 +22,20 @@ HTTP-GET /places/\<place-id\>/bearerToken?password=\<pass\>
 > Answer: 200/OK\
 > JSON-Payload: { bearerToken: string; }
 
+
+Wartelokalität anlegen
+----------------------
+
+> HTTP-POST: /places
+> JSON-Payload: { placeName: string; }
+> 
+> Answer: 200/OK;\
+> JSON-Payload: { id: string; placeName: string; }
+>
+> Answer: 4xx/Not ok
+>
+> Answer 401/Not authorized
+
  Warteschlangen anlegen
 ----------------------
 
