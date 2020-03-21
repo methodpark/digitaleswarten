@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 from flask import request, abort, jsonify
+
 from app import app, db
-from models.slot import Slot
 from models.place import Place
 from models.queue import Queue
+from models.slot import Slot
 from utils.id_generator import generate_queue_id
 
 @app.route('/')
