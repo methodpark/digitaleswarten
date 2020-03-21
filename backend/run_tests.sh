@@ -1,3 +1,4 @@
+#!/bin/sh
 mkdir -p db
 SQLITE_LOCATION=:memory: python3 ./digitales_warten.py &
 backend_pid=$!
