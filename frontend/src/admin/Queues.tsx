@@ -22,7 +22,7 @@ const Queue = (props: {queue: QueueModel}) => {
 
   return (
     <InnerBox name={name}>
-      <ul>
+      <ul className="queue-list">
         { personEntries.length !== 0 ? personEntries : 'Diese Warteliste ist leer.' }
       </ul>
     </InnerBox>
