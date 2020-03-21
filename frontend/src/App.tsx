@@ -12,6 +12,7 @@ function App() {
   return (
     <>
       <main>
+        <h1>Warte Frei</h1>
         <PersonManagement />
         <Queues />
       </main>
