@@ -57,8 +57,8 @@ def create_queue(place_id):
 @app.route('/places/<place_id>/queues', methods=['GET'])
 def get_queue_state(place_id):
     person_detail_level = request.args.get('personDetails', None)
-    if 'short' != person_detail_level:
-        abort(404)
+    if person_detail_level not in ['short', 'full']:
+        abort(400)
 
     place = Place.query.filter_by(id=place_id).first()
     if place is None:
@@ -70,22 +70,36 @@ def get_queue_state(place_id):
     queue_states = []
     for attached_queue in attached_queues:
         queue_entries = []
-        waiting_entries = Slot.query.filter_by(queue=attached_queue).all()
-        if not len(waiting_entries):
+        waiting_entries = Entry.query.filter_by(queue=attached_queue).all()
+        if len(waiting_entries):
+            entry = None
             for waiting_entry in waiting_entries:
-                entry = { 'id': waiting_entry.id,
-                           'ticketNumber': waiting_entry.ticket_number
-                        } 
-                queue_entries.append(entry)
+                if 'short' == person_detail_level:
+                    entry = get_short_entry(waiting_entry)
+                if 'full' == person_detail_level:
+                    entry = get_full_entry(waiting_entry)
 
+                queue_entries.append(entry)
+        
         queue = { 'id': attached_queue.id,
                   'name': attached_queue.name,
                   'entries': queue_entries
                 }
         queue_states.append(queue)
     return json.dumps(queue_states)
-        
 
+def get_short_entry(entry):
+    return { 'id': entry.id,
+             'ticketNumber': entry.ticket_number
+           } 
+
+
+def get_full_entry(entry):
+    return { 'id': entry.id,
+             'name': entry.name,
+             'ticketNumber': entry.ticket_number
+           } 
+    
 
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 def delete_queue(place_id, queue_id):
