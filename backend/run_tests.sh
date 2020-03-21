@@ -1,3 +1,11 @@
-#!/bin/sh
+python3 ./digitales_warten.py &
+backend_pid=$!
+backend_state=$?
+if [ $backend_state -eq 0 ]
+then
+    pytest
+else
+    echo "[EE] Error starting backend!"
+fi
 
-docker-compose up --abort-on-container-exit --build --force-recreate
+kill $backend_pid
