@@ -91,6 +91,6 @@ Zustand der Warteschlange abrufen
 >
 > Answer: 200/OK;\
 > JSON-Payload: { id: string; name: string; entries: {id: string;
-> number: number}\[\] }\[\]
+> ticketNumber: number}\[\] }\[\]
 >
 > Answer: 4xx/Not ok
