@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { InnerBox, SectionBox } from './Boxes';
+import { SectionBox } from './Boxes';
 
 import { Queue } from '../model/queue';
 import { AppState } from '../state/state';
