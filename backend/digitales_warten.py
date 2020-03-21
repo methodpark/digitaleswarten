@@ -19,7 +19,7 @@ def create_slot(queue_id):
     db.session.commit()
     return str(slot.id)
 
-@app.route('/place/<place_id>/queues', methods=['POST'])
+@app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
     if 'application/json' not in request.headers['Content-Type']:
         abort(400)
