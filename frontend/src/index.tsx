@@ -11,6 +11,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { backendSaga } from './state/backend';
 import createSagaMiddleware from 'redux-saga';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import FooComponent from './FooComponent';
 
 const backendMiddleware = createSagaMiddleware();
 
@@ -48,9 +50,15 @@ const store = createStore(fakeReducer, applyMiddleware(backendMiddleware));
 
 backendMiddleware.run(backendSaga);
 
-ReactDOM.render(<Provider store={store}>
-  <App />
-</Provider>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/:placeId" component={FooComponent} />
+        <Route path="/" component={App} />
+      </Switch>
+    </Router>
+  </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
