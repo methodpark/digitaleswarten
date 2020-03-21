@@ -9,7 +9,7 @@ To run integration tests:
 # Running locally
 Optionally in a virtual environment:
 ```
-python -m venv venv
+python -m venv .venv
 source venv/bin/activate
 ```
 
