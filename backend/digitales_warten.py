@@ -5,6 +5,7 @@ from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 
 from app import app, db
+from sqlalchemy import desc
 from models.place import Place
 from models.queue import Queue
 from models.slot import Slot
@@ -112,8 +113,8 @@ def add_entry(place_id, queue_id):
         abort(400)
     entry_name = data['name']
     entry_id = generate_entry_id(entry_name)
-    largest_previous_ticket_number = db.session.query(db.func.max(Slot.ticket_number)).scalar()
-    ticket_number = largest_previous_ticket_number + 1 if largest_previous_ticket_number else 1
+    largest_previous_slot = db.session.query(Slot).filter_by(queue=queue).order_by(desc(Slot.ticket_number)).limit(1).first()
+    ticket_number = largest_previous_slot.ticket_number + 1 if largest_previous_slot else 1
     slot = Slot(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
     db.session.add(slot)
     db.session.commit()
