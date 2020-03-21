@@ -8,7 +8,7 @@ from app import app, db
 from models.place import Place
 from models.queue import Queue
 from models.slot import Slot
-from utils.id_generator import generate_queue_id
+from utils.id_generator import generate_queue_id, generate_place_id
 
 from tornado.log import enable_pretty_logging
 enable_pretty_logging()
@@ -17,13 +17,22 @@ enable_pretty_logging()
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
 
-@app.route('/queue/<queue_id>/slot', methods=['POST'])
-def create_slot(queue_id):
-    queue = Queue.query.filter_by(id=queue_id).first()
-    slot = Slot(queue=queue)
-    db.session.add(slot)
+@app.route('/places', methods=['POST'])
+def create_place():
+    if 'application/json' not in request.headers['Content-Type']:
+        abort(400)
+    data = request.json
+    if 'placeName' not in data:
+        abort(400)
+    place_name = data['placeName']
+    # TODO: Password creation
+    place_password = 'Admin'
+    place_id = generate_place_id()
+    new_place = Place(id=place_id, password=place_password, name=place_name)
+    db.session.add(new_place)
     db.session.commit()
-    return str(slot.id)
+    return jsonify(id=new_place.id, name=new_place.name)
+
 
 @app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
@@ -62,3 +71,12 @@ if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(5000)
     IOLoop.instance().start()
+
+
+@app.route('/queue/<queue_id>/slot', methods=['POST'])
+def create_slot(queue_id):
+    queue = Queue.query.filter_by(id=queue_id).first()
+    slot = Slot(queue=queue)
+    db.session.add(slot)
+    db.session.commit()
+    return str(slot.id)
