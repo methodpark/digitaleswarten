@@ -8,7 +8,7 @@ from app import app, db
 from models.place import Place
 from models.queue import Queue
 from models.slot import Slot
-from utils.id_generator import generate_queue_id, generate_place_id
+from utils.id_generator import generate_queue_id, generate_place_id, generate_entry_id
 
 from tornado.log import enable_pretty_logging
 import json
@@ -99,17 +99,27 @@ def delete_queue(place_id, queue_id):
     db.session.commit()
     return ''
 
+@app.route('/places/<place_id>/queues/<queue_id>', methods=['POST'])
+def add_entry(place_id, queue_id):
+    place = Place.query.filter_by(id=place_id).first()
+    if place is None:
+        abort(404)
+    queue = Queue.query.filter_by(id=queue_id).filter_by(place=place).first()
+    if queue is None:
+        abort(404)
+    data = request.json
+    if 'name' not in data:
+        abort(400)
+    entry_name = data['name']
+    entry_id = generate_entry_id(entry_name)
+    ticket_number = Slot.query.filter_by(queue=queue).count() + 1
+    slot = Slot(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
+    db.session.add(slot)
+    db.session.commit()
+    return jsonify(id=entry_id, name=entry_name, ticketNumber=ticket_number)
+
 
 if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(5000)
     IOLoop.instance().start()
-
-
-@app.route('/queue/<queue_id>/slot', methods=['POST'])
-def create_slot(queue_id):
-    queue = Queue.query.filter_by(id=queue_id).first()
-    slot = Slot(queue=queue)
-    db.session.add(slot)
-    db.session.commit()
-    return str(slot.id)

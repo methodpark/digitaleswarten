@@ -18,6 +18,24 @@ class TestBackendIntegration:
                                        json={'queueName': 'TestQueue'})
         return queue_response.json()['id']
 
+    @pytest.fixture
+    def entry_id(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}',
+                                        json={'name': 'TestEntry'})
+        return entry_response.json()['id']
+
+    @pytest.fixture
+    def entry_name(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}',
+                                        json={'name': 'TestEntryName'})
+        return entry_response.json()['name']
+
+    @pytest.fixture
+    def entry_ticket(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}',
+                                        json={'name': 'TestEntryTicket'})
+        return entry_response.json()['ticketNumber']
+
     def test_create_place(self, place_id):
         assert place_id
 
@@ -27,3 +45,12 @@ class TestBackendIntegration:
     def test_get_queue_state(self, place_id, queue_id):
         place_response = requests.get(f'{self.host}/places/{place_id}/queues?personDetails=short')
         assert place_response
+
+    def test_create_entry(self, entry_id):
+        assert entry_id
+
+    def test_create_entry_name_is_correct(self, entry_name):
+        assert entry_name == 'TestEntryName'
+
+    def test_create_entry_ticket_number_is_3(self, entry_ticket):
+        assert entry_ticket == 3

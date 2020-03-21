@@ -44,3 +44,5 @@ def generate_queue_id(queue_name):
     time_stamp = str(int(time.time()))[-2:]
     return name_hash + time_stamp
 
+def generate_entry_id(name):
+    return generate_queue_id(name)
