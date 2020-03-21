@@ -6,7 +6,7 @@ backend_state=$?
 trap "kill $backend_pid" EXIT
 if [ $backend_state -eq 0 ]
 then
-    pytest
+    BACKEND_HOSTNAME=localhost pytest
 else
     echo "[EE] Error starting backend!"
 fi
