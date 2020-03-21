@@ -10,7 +10,7 @@ To run integration tests:
 Optionally in a virtual environment:
 ```
 python -m venv .venv
-source venv/bin/activate
+source .venv/bin/activate
 ```
 
 To specify the database location run
