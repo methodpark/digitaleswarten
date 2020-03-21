@@ -7,6 +7,11 @@ To run integration tests:
 `./run_docker_tests.sh`
 
 # Running locally
+Optionally in a virtual environment:
+```
+python -m venv venv
+source venv/bin/activate
+```
 
 To specify the database location run
 `export SQLITE_LOCATION=<db_path>`
