@@ -20,19 +20,19 @@ class TestBackendIntegration:
 
     @pytest.fixture
     def entry_id(self, place_id, queue_id):
-        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}',
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
                                         json={'name': 'TestEntry'})
         return entry_response.json()['id']
 
     @pytest.fixture
     def entry_name(self, place_id, queue_id):
-        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}',
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
                                         json={'name': 'TestEntryName'})
         return entry_response.json()['name']
 
     @pytest.fixture
     def entry_ticket(self, place_id, queue_id):
-        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}',
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
                                         json={'name': 'TestEntryTicket'})
         return entry_response.json()['ticketNumber']
 
