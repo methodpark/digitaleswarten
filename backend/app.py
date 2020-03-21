@@ -2,6 +2,18 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from os.path import isfile
+from pathlib import Path
+
+SQLITE_FILE = '/db/digitalesWartenDB.sqlite'
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////db/digitalesWartenDB.sqlite'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{SQLITE_FILE}'
 db = SQLAlchemy(app)
+
+if not isfile(SQLITE_FILE):
+    Path(SQLITE_FILE).parent.absolute().mkdir(parents=True, exist_ok=True)
+    from models.slot import Slot
+    db.create_all()
+    db.session.commit()
