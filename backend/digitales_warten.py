@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import json
 from flask import request, abort, jsonify
 from tornado.ioloop import IOLoop
 from tornado.wsgi import WSGIContainer
@@ -11,6 +12,7 @@ from models.slot import Slot
 from utils.id_generator import generate_queue_id, generate_place_id
 
 from tornado.log import enable_pretty_logging
+import logging
 enable_pretty_logging()
 
 @app.route('/')
@@ -51,6 +53,40 @@ def create_queue(place_id):
     db.session.add(queue)
     db.session.commit()
     return jsonify(id=queue.id, name=queue.name)
+
+@app.route('/places/<place_id>/queues', methods=['GET'])
+def get_queue_state(place_id):
+    person_detail_level = request.args.get('personDetails', None)
+    if 'short' != person_detail_level:
+        abort(404)
+
+    place = Place.query.filter_by(id=place_id).first()
+    if place is None:
+        abort(404)
+    
+    attached_queues = Queue.query.filter_by(place=place).all()
+    logging.warning(attached_queues)
+    if not len(attached_queues):
+        logging.warning("no_queues_found")
+        return json.dumps([])
+    queue_states = []
+    for attached_queue in attached_queues:
+        queue_entries = []
+        waiting_entries = Slot.query.filter_by(queue=attached_queue).all()
+        if not len(waiting_entries):
+            for waiting_entry in waiting_entries:
+                entry = { 'id': waiting_entry.id,
+                           'ticketNumber': waiting_entry.ticket_number
+                        } 
+                queue_entries.append(entry)
+        queue = { 'id': attached_queue.id,
+                  'name': attached_queue.name,
+                  'entries': queue_entries
+                }
+        queue_states.append(queue)
+    logging.warning(queue_states)
+    return json.dumps(queue_states)
+        
 
 
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
