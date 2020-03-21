@@ -2,13 +2,24 @@ import './App.css';
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { createQueueCreator } from './state/backend';
 
-function App(props: any) {
+import PersonManagement from './admin/PersonManagement';
+import Queues from './admin/Queues';
+import QueueOverview from './admin/QueueOverview';
+import QueueManagement from './admin/QueueManagement';
+
+function App() {
   return (
-    <div className="App">
-      <button onClick={() => props.dispatch(createQueueCreator("placeid", "Notfall"))}>Create "Notfall" Queue</button>
-    </div>
+    <>
+      <main>
+        <PersonManagement />
+        <Queues />
+      </main>
+      <aside>
+        <QueueOverview />
+        <QueueManagement />
+      </aside>
+    </>
   );
 }
 
