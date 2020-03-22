@@ -210,4 +210,37 @@ input:focus {
     margin-left: 20px;
     max-width: 80px;
   }
- }
+}
+
+.queueboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.queueboard-patient-entry {
+  min-width: 280px;
+  background: white;
+  border-radius: 3px;
+  padding: 20px 20px;
+  margin: 10px 10px;
+  box-shadow: 5px 3px 5px 0px rgba(176,176,176,1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.queueboard-patient-entry:last-child {
+  margin-bottom: 80px;
+}
+
+.queueboard-patient-entry>img {
+  width: 50px;
+  height: 50px;
+}
