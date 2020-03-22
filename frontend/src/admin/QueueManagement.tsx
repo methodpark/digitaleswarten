@@ -53,7 +53,7 @@ const QueueDeleteBox = (props: AppState &  DispatchProp<DeleteQueueAction>) => {
 
 
   return (
-    <InnerBox name="Warteschlange löschen">
+    <InnerBox inactive={queues.length === 0} name="Warteschlange löschen">
       <div className="form-area">
         {queues.map(renderQueueDeleteLine)}
       </div>
@@ -63,7 +63,7 @@ const QueueDeleteBox = (props: AppState &  DispatchProp<DeleteQueueAction>) => {
 
 const QueuesManagement = (props: AppState & DispatchProp<CreateQueueAction | DeleteQueueAction>) => {
   return (
-    <SectionBox name="Warteschlangen-Management">
+    <SectionBox name="Verwaltung">
       <QueueCreateBox {...props}></QueueCreateBox>
       <QueueDeleteBox {...props}></QueueDeleteBox>
     </SectionBox>

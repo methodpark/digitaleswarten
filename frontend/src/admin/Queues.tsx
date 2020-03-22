@@ -47,7 +47,7 @@ const Queues = (props: AppState & DispatchProp<UpdatePersonAction>) => {
   const {queues = [], dispatch} = props;
 
   return (
-    <SectionBox name="Warteschlangen">
+    <SectionBox inactive={queues.length === 0} name="Warteschlangen">
       {queues.map(queue => <QueueComponent key={queue.id} {...{queue, dispatch}} />)}
     </SectionBox>
   )

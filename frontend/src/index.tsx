@@ -1,10 +1,10 @@
-import './index.css';
+import './styles/index.css';
 
 import * as serviceWorker from './serviceWorker';
 
 import { applyMiddleware, createStore } from 'redux';
 
-import App from './App';
+import Admin from './Admin';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -25,9 +25,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route path="/:placeId/admin" component={App} />
-        <Route path="/:placeId/queues" component={QueueBoard} />
-        <Route path="/:placeId" component={QueueBoard} />
+        <Route path="/admin/:placeId" component={Admin} />
+        <Route path="/queues/:placeNumber" component={QueueBoard} />
         <Route path="/" component={PatientWelcome} />
       </Switch>
     </Router>

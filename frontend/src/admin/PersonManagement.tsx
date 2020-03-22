@@ -34,7 +34,7 @@ const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) =>
   }
 
   return (
-    <SectionBox name="Personen anlegen">
+    <SectionBox inactive={queues.length === 0} name="Personen anlegen">
       <div className="form-area">
         <label htmlFor="create-person-queue-name">Warteschlange: </label>
         <select

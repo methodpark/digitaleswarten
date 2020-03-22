@@ -7,7 +7,8 @@ from utils.id_generator import generate_place_id
 import logging
 
 class Place(db.Model):
-    id = db.Column(db.String, primary_key=True)
+    public_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     name = db.Column(db.String)
 

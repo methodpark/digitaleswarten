@@ -55,8 +55,8 @@ const ConnectedQueueBoard = connect(mapStateToProps)(QueueBoard);
 
 export const SelfUpdatingQueueBoard = (props: any) => {
   return <>
-    <SelfRefreshingQueues personDetails="short" placeId={props.match.params.placeId} />
-    <ConnectedQueueBoard placeId={props.match.params.placeId} />
+    <SelfRefreshingQueues personDetails="short" placeId={props.match.params.placeNumber} />
+    <ConnectedQueueBoard placeId={props.match.params.placeNumber} />
   </>;
 }
 

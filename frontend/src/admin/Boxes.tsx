@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 
-export const InnerBox: FunctionComponent<{name: string}> = (props) => {
+export const InnerBox: FunctionComponent<{name: string, inactive?: boolean}> = (props) => {
 
-  const {name = '', children} = props;
+  const {name = '', inactive = false, children} = props;
 
   return (
-    <div className="sub-area">
+    <div className={'sub-area' +  (inactive ? ' inactive' : '')}>
       <span className="area-heading">{name}</span>
 
       {children}
@@ -14,12 +14,12 @@ export const InnerBox: FunctionComponent<{name: string}> = (props) => {
     );
 }
 
-export const SectionBox: FunctionComponent<{name: string}> = (props) => {
+export const SectionBox: FunctionComponent<{name: string, inactive?: boolean, className?: string}> = (props) => {
 
-  const {name = '', children} = props;
+  const {name = '', inactive = false, className = '', children} = props;
 
   return (
-    <section>
+    <section className={className + ' ' + (inactive ? 'inactive' : '')}>
       <h2>{name}</h2>
 
       {children}
