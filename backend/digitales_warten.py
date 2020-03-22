@@ -146,7 +146,7 @@ def create_entry(place_id, queue_id):
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
 
-    new_entry = add_new_entry_to_db(db, place, entry_name)
+    new_entry = add_new_entry_to_db(db, place, queue, entry_name)
 
     return jsonify(id=new_entry.id,
                    name=new_entry.name,

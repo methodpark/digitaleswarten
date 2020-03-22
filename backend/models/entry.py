@@ -47,16 +47,16 @@ class Entry(db.Model):
                }
 
 
-def add_new_entry_to_db(db, place, entry_name):
+def add_new_entry_to_db(db, place, queue, entry_name):
     """
     Creates a new entry with entry_name and returns.
     """
     entry_id = generate_entry_id(entry_name)
     place_queues = Queue.query.filter_by(place=place).all()
     largest_place_entry = None
-    for queue in place_queues:
+    for pl_queue in place_queues:
         largest_queue_entry = db.session.query(Entry) \
-                                        .filter_by(queue=queue) \
+                                        .filter_by(queue=pl_queue) \
                                         .order_by(desc(Entry.ticket_number)) \
                                         .limit(1) \
                                         .first()
