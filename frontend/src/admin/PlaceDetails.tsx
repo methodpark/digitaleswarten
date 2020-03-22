@@ -5,7 +5,7 @@ import { SectionBox } from './Boxes';
 import { AppState } from '../state/state';
 import { connect, DispatchProp } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { FetchPlaceDetailsAction, fetchPlaceDetailsCreator } from '../state/backend';
+import { FetchPlaceDetailsAction } from '../state/backend';
 
 const PlaceDetails = (props: AppState & DispatchProp<FetchPlaceDetailsAction>) => {
 
