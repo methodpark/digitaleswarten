@@ -1,5 +1,5 @@
 import { all, call, takeEvery, put } from 'redux-saga/effects'
-import { updateQueueCreator } from './queue';
+import { updateQueueCreator, updatePlaceDetailsCreator } from './queue';
 
 // Create a queue
 const CREATE_QUEUE = "@backend/CREATE_QUEUE";
@@ -85,11 +85,23 @@ export const removePersonCreator = (placeId: string, queueId: string, entryId: s
   entryId
 });
 
+// Get place details
+const FETCH_PLACE_DETAILS = "@backend/FETCH_PLACE_DETAILS";
+export interface FetchPlaceDetailsAction {
+  type: typeof FETCH_PLACE_DETAILS,
+  placeId: string;
+}
+export const fetchPlaceDetailsCreator = (placeId: string): FetchPlaceDetailsAction => ({
+  type: FETCH_PLACE_DETAILS,
+  placeId
+});
+
 type BackendAction = CreateQueueAction |
   FetchQueuesAction |
   CreatePersonAction |
   DeleteQueueAction |
-  UpdatePersonAction;
+  UpdatePersonAction |
+  FetchPlaceDetailsAction;
 
 const contentTypeJsonHeader = {
   'Content-Type': 'application/json'
@@ -104,6 +116,20 @@ function* queueSaga(action: BackendAction) {
     if (response.ok) {
       const data = yield call([response, response.json]);
       yield put(updateQueueCreator(data));
+    } else {
+      console.error("Queue fetch failed: ", response);
+    }
+    return;
+  }
+
+  if (action.type === FETCH_PLACE_DETAILS) {
+    const response = yield call(fetch, `/api/v1/places/${action.placeId}`, {
+      method: "GET",
+      headers: contentTypeJsonHeader
+    });
+    if (response.ok) {
+      const data = yield call([response, response.json]);
+      yield put(updatePlaceDetailsCreator(data));
     } else {
       console.error("Queue fetch failed: ", response);
     }
@@ -144,6 +170,9 @@ function* queueSaga(action: BackendAction) {
     body
   });
   if (response.ok) {
+    if(action.type === CREATE_QUEUE) {
+      yield put(fetchPlaceDetailsCreator(action.placeId));
+    }
     yield put(fetchQueuesCreator(action.placeId, "full"));
   } else {
     console.error(`Request for action ${action.type} failed.`);
@@ -152,6 +181,6 @@ function* queueSaga(action: BackendAction) {
 
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PERSON, REMOVE_PERSON], queueSaga)
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PERSON, REMOVE_PERSON, FETCH_PLACE_DETAILS], queueSaga)
   ]);
 }

@@ -20,9 +20,25 @@ body {
   color: #333;
 }
 
+.admin-view a {
+  color: var(--primary-highlight-color);
+}
+.admin-view a:hover {
+  color: var(--secondary-highlight-color);
+}
+
 .admin-view {
   display: flex;
+  justify-content: center;
   width: 100%;
+}
+
+.admin-view aside {
+  max-width: 350px;
+}
+
+.admin-view main {
+  max-width: 800px;
 }
 
 :not(.inactive) {
