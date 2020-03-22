@@ -54,7 +54,7 @@ class TestBackendIntegration:
     def test_create_entry_name_is_correct(self, entry_name):
         assert entry_name == 'TestEntryName'
 
-    def test_create_entry_ticket_number_is_4(self, place_id):
+    def test_create_entry_ticket_number_is_distributed_properly(self, place_id):
         queue_response = requests.post(f'{self.host}/places/{place_id}/queues',
                                        json={'queueName': 'TestQueueTicketNumber'})
         queue_id = queue_response.json()['id']
