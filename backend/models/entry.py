@@ -30,6 +30,19 @@ class Entry(db.Model):
     def __repr__(self):
         return f'<Entry {id}>'
 
+    def short_json(self):
+        return {
+                 'id': self.id,
+                 'ticket_number' : self.ticket_number
+               }
+
+    def full_json(self):
+        return {
+                 'id': self.id,
+                 'name': self.name,
+                 'ticket_number' : self.ticket_number
+               }
+
 
 def add_new_entry_to_db(db, queue, entry_name):
     """

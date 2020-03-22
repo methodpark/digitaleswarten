@@ -66,9 +66,9 @@ def get_queue_state(place_id):
             entry = None
             for waiting_entry in waiting_entries:
                 if 'short' == person_detail_level:
-                    entry = get_short_entry(waiting_entry)
+                    entry = waiting_entry.short_json()
                 if 'full' == person_detail_level:
-                    entry = get_full_entry(waiting_entry)
+                    entry = waiting_entry.full_json()
 
                 queue_entries.append(entry)
         
@@ -78,18 +78,6 @@ def get_queue_state(place_id):
                 }
         queue_states.append(queue)
     return json.dumps(queue_states)
-
-def get_short_entry(entry):
-    return { 'id': entry.id,
-             'ticketNumber': entry.ticket_number
-           } 
-
-
-def get_full_entry(entry):
-    return { 'id': entry.id,
-             'name': entry.name,
-             'ticketNumber': entry.ticket_number
-           } 
     
 
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
