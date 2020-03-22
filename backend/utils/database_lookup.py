@@ -35,3 +35,9 @@ def get_entry_if_exists(place, queue, entry_id):
     if entry is None:
         abort(404)
     return entry
+
+def get_all_entries_of_queue(queue):
+    """
+    Returns all entries of a queue or an empty list if no entries are present.
+    """
+    return Entry.query.filter_by(queue=queue).all()
