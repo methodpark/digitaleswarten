@@ -30,6 +30,12 @@ def add_new_place_to_db(db, place_name, place_password):
     Creates a new place with place_name and returns.
     """
     place_id = generate_place_id()
+    return add_new_place_to_db_with_place_id(db, place_id, place_name, place_password)
+
+def add_new_place_to_db_with_place_id(db, place_id, place_name, place_password):
+    """
+    Creates a new place with place_name, place_id and returns
+    """
     try:
         new_place = Place(id=place_id, password=place_password, name=place_name)
         db.session.add(new_place)
