@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { AppState } from '../state/state'
 import { Queue } from '../model/queue'
@@ -12,15 +12,24 @@ const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) =>
 
   const renderQueueOption = (queue: Queue) => (
     <option key={queue.id} value={queue.id}>
-      Notfall
+      {queue.name}
     </option>
   )
 
-  const [selectedQueueId, setSelectedQueueId] = useState(
-    queues.length !== 0 ? queues[0].id : ''
-  )
-  const [personName, setPersonName] = useState('')
+  const nameRef = React.createRef<HTMLInputElement>();
+  const queueRef = React.createRef<HTMLSelectElement>();
   const locationParams = useParams() as {placeId: string};
+
+  const createPerson = () => {
+    const name = nameRef.current?.value;
+    const queueId = queueRef.current?.value;
+
+    if(name === undefined || name === '' || queueId === undefined){
+      return;
+    }
+
+    props.dispatch(createPersonCreator(locationParams.placeId, name, queueId));
+  }
 
   return (
     <SectionBox name="Personen anlegen">
@@ -29,7 +38,7 @@ const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) =>
         <select
           id="create-person-queue-name"
           name="queue"
-          onChange={ev => setSelectedQueueId(ev.target.value)}
+          ref={queueRef}
         >
           {queues.map(renderQueueOption)}
         </select>
@@ -42,15 +51,11 @@ const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) =>
           type="text"
           name="name"
           placeholder="Name"
-          onChange={ev => setPersonName(ev.target.value)}
+          ref={nameRef}
         />
         <div className="button-area">
           <button
-            onClick={() =>
-              props.dispatch(
-                createPersonCreator(locationParams.placeId, personName, selectedQueueId)
-              )
-            }
+            onClick={createPerson}
           >
             Anlegen
           </button>
