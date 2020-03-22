@@ -19,24 +19,26 @@ export function PatientWelcome() {
   }
 
   return(
-    <main className="welcome-background-image">
+    <div className="welcome-background-image">
       <header className="welcome-patient-text-wrapper">
         <h1 className="welcome-patient-headline">Digitales Nummern Ziehen</h1>
-        <p className="welcome-patient-subheadline">Sie haben zwei Nummern erhalten. <br /> <br />Bitte geben Sie die Wartebereichsnummer hier ein:</p>
       </header>
 
-      <div className="welcome-input-wrapper">
-        <input
-          className="welcome-patient-id-input"
-          type="number"
-          name="patient-id"
-          ref={numberInputRef}
-          placeholder="Ihre Wartebereichsnummer">
-        </input>
-        <div className="welcome-patient-button" onClick={openPlace}><span className="screenreader-text">Wartebereich durch anklicken öffnen</span></div>
-      </div>
+      <main>
+        <p className="welcome-patient-subheadline">Sie haben zwei Nummern erhalten. <br /> <br />Bitte geben Sie die Wartebereichsnummer hier ein:</p>
+        <div className="welcome-input-wrapper">
+          <input
+            className="welcome-patient-id-input"
+            type="number"
+            name="patient-id"
+            ref={numberInputRef}
+            placeholder="Ihre Wartebereichsnummer">
+          </input>
+          <div className="welcome-patient-button" onClick={openPlace}><span className="screenreader-text">Wartebereich durch anklicken öffnen</span></div>
+        </div>
 
-      <p>Sie sind Geschäftsinhaber? <Link className="create-new-area" to={`admin/${uuid()}`}>Legen Sie sich einen eigenen Wartebereich an.</Link></p>
+        <p>Sie sind Geschäftsinhaber? <Link className="create-new-area" to={`admin/${uuid()}`}>Legen Sie sich einen eigenen Wartebereich an.</Link></p>
+      </main>
 
       <footer className="welcome-patient-footer">
         <img
@@ -44,8 +46,7 @@ export function PatientWelcome() {
           src={virusLogo}
           alt="Wir VS Virus Logo"/>
       </footer>
-    <div className="welcome-background-overlay"></div>
-  </main>
+  </div>
   );
 }
 
