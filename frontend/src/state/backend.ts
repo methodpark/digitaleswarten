@@ -144,7 +144,7 @@ function* queueSaga(action: BackendAction) {
     body
   });
   if (response.ok) {
-    put(fetchQueuesCreator(action.placeId, "full"));
+    yield put(fetchQueuesCreator(action.placeId, "full"));
   } else {
     console.error(`Request for action ${action.type} failed.`);
   }
