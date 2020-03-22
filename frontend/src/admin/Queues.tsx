@@ -2,10 +2,8 @@ import React from 'react';
 import { Queue as QueueModel } from '../model/queue';
 import { Person } from '../model/person';
 import { AppState } from '../state/state';
-import { connect, DispatchProp } from 'react-redux';
+import { connect } from 'react-redux';
 import { SectionBox, InnerBox } from './Boxes';
-import { useParams } from 'react-router-dom';
-import { FetchQueuesAction, fetchQueuesCreator } from '../state/backend';
 
 const Queue = (props: {queue: QueueModel}) => {
   const {entries = [], name=""} = props.queue;
@@ -41,18 +39,6 @@ const Queues = (props: AppState) => {
   )
 }
 
-const SelfRefreshingQueues = (props: AppState & DispatchProp<FetchQueuesAction>) => {
-  const locationParams = useParams() as {placeId: string};
-  const dispatchFetch = () => {
-    props.dispatch(fetchQueuesCreator(locationParams.placeId, "full"));
-    setTimeout(dispatchFetch, 3000);
-  };
-
-  dispatchFetch();
-
-  return <Queues {...props} />;
-}
-
 const mapStateToProps = (state: AppState) => state;
 
-export default connect(mapStateToProps)(SelfRefreshingQueues);
+export default connect(mapStateToProps)(Queues);

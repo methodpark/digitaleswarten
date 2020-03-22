@@ -13,7 +13,7 @@ import { backendSaga } from './state/backend';
 import createSagaMiddleware from 'redux-saga';
 import { queueReducer } from './state/queue';
 import { PatientWelcome } from './patient/PatientWelcome';
-import { QueueBoard } from './patient/QueueBoard';
+import QueueBoard from './patient/QueueBoard';
 
 const backendMiddleware = createSagaMiddleware();
 
@@ -26,7 +26,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/:placeId/admin" component={App} />
-        <Route path="/queues" component={QueueBoard} />
+        <Route path="/:placeId/queues" component={QueueBoard} />
         <Route path="/" component={PatientWelcome} />
       </Switch>
     </Router>
