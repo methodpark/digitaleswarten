@@ -60,7 +60,30 @@ export const deleteQueuesCreator = (placeId: string, queueId: string): DeleteQue
   queueId
 });
 
-type backendAction = CreateQueueAction | FetchQueuesAction | CreatePersonAction | DeleteQueueAction;
+// Call a patient
+const CALL_PATIENT = "@backend/CALL_PATIENT";
+interface CallPatientAction {
+  type: typeof CALL_PATIENT;
+  placeId: string;
+  queueId: string;
+  entryId: string;
+}
+export const callPatientCreator = (placeId: string, queueId: string, entryId: string): CallPatientAction => ({
+  type: CALL_PATIENT,
+  placeId,
+  queueId,
+  entryId
+});
+
+type backendAction = CreateQueueAction |
+  FetchQueuesAction |
+  CreatePersonAction |
+  DeleteQueueAction |
+  CallPatientAction;
+
+const contentTypeJsonHeader = {
+  'Content-Type': 'application/json'
+};
 
 function* queueSaga(action: backendAction) {
   if (action.type === CREATE_QUEUE) {
@@ -79,9 +102,7 @@ function* queueSaga(action: backendAction) {
   } else if (action.type === FETCH_QUEUES) {
     const response = yield call(fetch, `/places/${action.placeId}/queues?personDetails=${action.personDetails}`, {
       method: "GET",
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: contentTypeJsonHeader
     });
     if (response.ok) {
       const data = yield call([response, response.json]);
@@ -95,7 +116,7 @@ function* queueSaga(action: backendAction) {
       `/places/${action.placeId}/queues/${action.queueId}/entries`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: contentTypeJsonHeader,
         body: JSON.stringify({ name: action.name }),
       }
     )
@@ -113,6 +134,17 @@ function* queueSaga(action: backendAction) {
     } else {
       console.error('Delete queue failed');
     }
+  } else if (action.type === CALL_PATIENT) {
+    const response = yield call(fetch, `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`, {
+      method: 'PUT',
+      headers: contentTypeJsonHeader,
+      body: JSON.stringify({state: 'called'})
+    });
+    if (response.ok) {
+      put(fetchQueuesCreator(action.placeId, "full"));
+    } else {
+      console.error('Call patient failed');
+    }
   }
 }
 
@@ -126,7 +158,7 @@ function* watchBackend() {
 
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE], queueSaga),
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PATIENT], queueSaga),
     watchBackend()
   ]);
 }
