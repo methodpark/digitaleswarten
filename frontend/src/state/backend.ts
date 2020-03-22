@@ -35,7 +35,7 @@ export const createPersonCreator = (
 
 // Fetch queue status
 const FETCH_QUEUES = "@backend/FETCH_QUEUES";
-type PersonDetails = "full" | "short";
+export type PersonDetails = "full" | "short";
 export interface FetchQueuesAction {
   type: typeof FETCH_QUEUES;
   placeId: string;

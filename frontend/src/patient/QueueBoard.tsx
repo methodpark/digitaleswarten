@@ -4,11 +4,10 @@ import { AppState } from '../state/state';
 import { Queue } from '../model/queue';
 import { Person } from '../model/person';
 import icon from '../img/arzt-icon.png';
+import SelfRefreshingQueues from '../SelfRefreshingQueues';
 
 export function QueueBoard(props: AppState) {
   const { queues = [] } = props;
-
-
 
   if (queues.length < 1) {
     return (
@@ -36,4 +35,13 @@ export function QueueBoard(props: AppState) {
 }
 
 const mapStateToProps = (state: AppState) => state;
-export default connect(mapStateToProps)(QueueBoard);
+const ConnectedQueueBoard = connect(mapStateToProps)(QueueBoard);
+
+export const SelfUpdatingQueueBoard = (props: any) => {
+  return <>
+    <SelfRefreshingQueues personDetails="short" placeId={props.match.params.placeId} />
+    <ConnectedQueueBoard />
+  </>;
+}
+
+export default SelfUpdatingQueueBoard;
