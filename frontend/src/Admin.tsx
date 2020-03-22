@@ -1,4 +1,4 @@
-import './styles/App.css';
+import './styles/Admin.css';
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import QueueOverview from './admin/QueueOverview';
 import QueueManagement from './admin/QueueManagement';
 import SelfRefreshingQueues from './SelfRefreshingQueues';
 
-function App(props: any) {
+function Admin(props: any) {
   return (
     <>
       <h1>Warte Frei</h1>
@@ -28,4 +28,4 @@ function App(props: any) {
   );
 }
 
-export default connect()(App);
+export default connect()(Admin);
