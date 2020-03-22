@@ -105,7 +105,11 @@ span.area-heading {
 .queue-list li {
   display: flex;
   justify-content: space-between;
-  padding-bottom: var(--secondary-padding);
+  margin-bottom: 1rem;
+}
+
+.queue-list li:last-of-type {
+  margin-bottom: 0px;
 }
 
 .queue-list li button {

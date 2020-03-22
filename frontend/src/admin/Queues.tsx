@@ -7,9 +7,9 @@ import { SectionBox, InnerBox } from './Boxes';
 import { UpdatePersonAction, callPersonCreator, removePersonCreator } from '../state/backend'
 import { useParams } from 'react-router-dom';
 
-const PersonComponent = (props: {queueId: string, person: Person} & DispatchProp<UpdatePersonAction>) => {
+const PersonComponent = (props: {queueId: string, person: Person, areaNumber: number} & DispatchProp<UpdatePersonAction>) => {
 
-  const { person, queueId } = props;
+  const { person, queueId, areaNumber } = props;
   const locationParams = useParams() as {placeId: string};
 
   const callPerson = () => props.dispatch(callPersonCreator(locationParams.placeId, queueId, person.id));
@@ -22,17 +22,20 @@ const PersonComponent = (props: {queueId: string, person: Person} & DispatchProp
 
   return (
     <li key={person.id}>
-      {person.name} ({person.ticketNumber})
+      <span>
+        <b>{person.name}</b> {person.state === 'called' ? '(aufgerufen)' : ''} <br/>
+        (Wartebereich: {areaNumber}; Ticket-Nummer: {person.ticketNumber})
+      </span>
       {buttonArea()}
     </li>
   );
 }
 
-const QueueComponent = (props: {queue: QueueModel} & DispatchProp<UpdatePersonAction>) => {
-  const { queue, dispatch } = props;
+const QueueComponent = (props: {queue: QueueModel, areaNumber: number} & DispatchProp<UpdatePersonAction>) => {
+  const { queue, dispatch, areaNumber } = props;
   const { entries = [], name="", id } = queue;
 
-  const personEntries = entries.map((person: Person) => <PersonComponent key={id} {...{ queueId: id, person, dispatch }} />);
+  const personEntries = entries.map((person: Person) => <PersonComponent key={id} {...{ queueId: id, person, dispatch, areaNumber }} />);
 
   return (
     <InnerBox name={name}>
@@ -44,11 +47,15 @@ const QueueComponent = (props: {queue: QueueModel} & DispatchProp<UpdatePersonAc
 };
 
 const Queues = (props: AppState & DispatchProp<UpdatePersonAction>) => {
-  const {queues = [], dispatch} = props;
+  const {queues = [], placeDetails, dispatch} = props;
+  const { publicId } = placeDetails;
 
   return (
     <SectionBox inactive={queues.length === 0} name="Warteschlangen">
-      {queues.map(queue => <QueueComponent key={queue.id} {...{queue, dispatch}} />)}
+      <p>Teilen Sie Ihren wartenden Ihre Wartebereichsnummer <b>({publicId})</b> und ihre <b>Ticket-Nummer</b> mit. <br />
+      Die Wartebereichsnummer identifiziert Ihren Wartebereich, ohne weitere Informationen Preis zu geben.<br />
+      Die Wartenden sind an der Reihe, wenn ihre Ticket-Nummer aufgerufen wird.</p>
+      {queues.map(queue => <QueueComponent key={queue.id} {...{queue, dispatch, areaNumber: publicId}} />)}
     </SectionBox>
   )
 }
