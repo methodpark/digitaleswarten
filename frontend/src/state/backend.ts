@@ -1,9 +1,10 @@
 import { all, call, takeEvery, put, delay } from 'redux-saga/effects'
 import { updateQueueCreator } from './queue';
 
+// Create a queue
 const CREATE_QUEUE = "@backend/CREATE_QUEUE";
 interface CreateQueueAction {
-  type: "@backend/CREATE_QUEUE";
+  type: typeof CREATE_QUEUE;
   placeId: string;
   name: string;
 }
@@ -13,9 +14,10 @@ export const createQueueCreator = (placeId: string, name: string): CreateQueueAc
   name,
 })
 
+// Adda person to a queue
 const CREATE_PERSON = '@backend/CREATE_PERSON'
 interface CreatePersonAction {
-  type: "@backend/CREATE_PERSON";
+  type: typeof CREATE_PERSON;
   placeId: string;
   name: string;
   queueId: string;
@@ -31,10 +33,11 @@ export const createPersonCreator = (
   queueId,
 })
 
+// Fetch queue status
 const FETCH_QUEUES = "@backend/FETCH_QUEUES";
 type PersonDetails = "full" | "short";
 interface FetchQueuesAction {
-  type: "@backend/FETCH_QUEUES";
+  type: typeof FETCH_QUEUES;
   placeId: string;
   personDetails: PersonDetails;
 }
@@ -44,7 +47,20 @@ export const fetchQueuesCreator = (placeId: string, personDetails: PersonDetails
   personDetails
 });
 
-type backendAction = CreateQueueAction | FetchQueuesAction | CreatePersonAction;
+// Delete a queue
+const DELETE_QUEUE = "@backend/DELETE_QUEUE";
+interface DeleteQueueAction {
+  type: typeof DELETE_QUEUE;
+  placeId: string;
+  queueId: string;
+}
+export const deleteQueuesCreator = (placeId: string, queueId: string): DeleteQueueAction => ({
+  type: DELETE_QUEUE,
+  placeId,
+  queueId
+});
+
+type backendAction = CreateQueueAction | FetchQueuesAction | CreatePersonAction | DeleteQueueAction;
 
 function* queueSaga(action: backendAction) {
   if (action.type === CREATE_QUEUE) {
@@ -88,6 +104,15 @@ function* queueSaga(action: backendAction) {
     } else {
       console.error('Person creation failed: ', response)
     }
+  } else if (action.type === DELETE_QUEUE) {
+    const response = yield call(fetch, `/places/${action.placeId}/queues/${action.queueId}`, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      put(fetchQueuesCreator(action.placeId, "full"));
+    } else {
+      console.error('Delete queue failed');
+    }
   }
 }
 
@@ -101,7 +126,7 @@ function* watchBackend() {
 
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON], queueSaga),
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE], queueSaga),
     watchBackend()
   ]);
 }
