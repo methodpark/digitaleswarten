@@ -13,6 +13,14 @@ class Queue(db.Model):
     def __repr__(self):
         return f'<Queue {self.id}: [{self.slots}]>'
 
+    def json(self, entries):
+        return {
+                'id': self.id,
+                'name': self.name,
+                'entries': entries
+                }
+
+
 
 def add_new_queue_to_db(db, place, queue_name):
     """

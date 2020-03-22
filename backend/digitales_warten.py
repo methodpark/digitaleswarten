@@ -52,31 +52,39 @@ def get_queue_state(place_id):
     entry_level_detail = handle_get_queries.get_entry_detail_level(request) 
 
     place = database_lookup.get_place_if_exists(place_id)
-    
-    attached_queues = Queue.query.filter_by(place=place).all()
+    return json.dumps(gather_places_queues_state(place, entry_level_detail))
+
+def gather_places_queues_state(place, entry_level_detail):
+    """
+    Returns the place's queues state including their entries.
+    """
+    attached_queues = database_lookup.get_all_queues_of_place(place)
     if not len(attached_queues):
-        return json.dumps([])
+        return []
     queue_states = []
     for attached_queue in attached_queues:
-        queue_entries = []
-        waiting_entries = database_lookup.get_all_entries_of_queue(attached_queue)
-        if len(waiting_entries):
-            entry = None
-            for waiting_entry in waiting_entries:
-                if 'short' == entry_level_detail:
-                    entry = waiting_entry.short_json()
-                if 'full' == entry_level_detail:
-                    entry = waiting_entry.full_json()
+        queue_states.append(gather_queues_entries(attached_queue, entry_level_detail))
+    return queue_states
 
-                queue_entries.append(entry)
-        
-        queue = { 'id': attached_queue.id,
-                  'name': attached_queue.name,
-                  'entries': queue_entries
-                }
-        queue_states.append(queue)
-    return json.dumps(queue_states)
+
+def gather_queues_entries(queue, entry_level_detail):
+    """
+    Returns a queue's state and entries.
+    """
+    queue_entries = []
+    waiting_entries = database_lookup.get_all_entries_of_queue(queue)
+    if len(waiting_entries):
+        entry = None
+        for waiting_entry in waiting_entries:
+            if 'short' == entry_level_detail:
+                entry = waiting_entry.short_json()
+            if 'full' == entry_level_detail:
+                entry = waiting_entry.full_json()
+
+            queue_entries.append(entry)
     
+    return queue.json(queue_entries)
+
 
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 def delete_queue(place_id, queue_id):
