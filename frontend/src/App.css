@@ -8,11 +8,16 @@
   --secondary-border: 1px solid #ddd;
 }
 
-body {
+#root {
   background: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.admin-view {
+  display: flex;
+  width: 100%
 }
 
 h1 {
@@ -86,11 +91,6 @@ span.area-heading {
 
 span.optional-star {
   color: var(--highlight-color);
-}
-
-.main-container {
-  display: flex;
-  width: 100%;
 }
 
 main {
