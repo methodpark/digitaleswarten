@@ -126,11 +126,11 @@ function* queueSaga(action: BackendAction) {
     url = `/places/${action.placeId}/queues/${action.queueId}`;
     method = 'DELETE';
   } else if (action.type === CALL_PERSON) {
-    url = `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`;
+    url = `/places/${action.placeId}/queues/${action.queueId}/entries/${action.entryId}`;
     method = 'PUT';
     body = JSON.stringify({state: 'called'});
   } else if (action.type === REMOVE_PERSON) {
-    url = `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`;
+    url = `/places/${action.placeId}/queues/${action.queueId}/entries/${action.entryId}`;
     method = 'DELETE';
   }
 
