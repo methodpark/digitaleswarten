@@ -32,7 +32,7 @@ const QueueComponent = (props: {queue: QueueModel} & DispatchProp<UpdatePersonAc
   const { queue, dispatch } = props;
   const { entries = [], name="", id } = queue;
 
-  const personEntries = entries.map((person: Person) => <PersonComponent {...{ queueId: id, person, dispatch }} />);
+  const personEntries = entries.map((person: Person) => <PersonComponent key={id} {...{ queueId: id, person, dispatch }} />);
 
   return (
     <InnerBox name={name}>
