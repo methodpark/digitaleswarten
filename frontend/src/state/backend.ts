@@ -10,8 +10,26 @@ interface CreateQueueAction {
 export const createQueueCreator = (placeId: string, name: string): CreateQueueAction => ({
   type: CREATE_QUEUE,
   placeId,
-  name
-});
+  name,
+})
+
+const CREATE_PERSON = '@backend/CREATE_PERSON'
+interface CreatePersonAction {
+  type: "@backend/CREATE_PERSON";
+  placeId: string;
+  name: string;
+  queueId: string;
+}
+export const createPersonCreator = (
+  placeId: string,
+  name: string,
+  queueId: string
+): CreatePersonAction => ({
+  type: CREATE_PERSON,
+  placeId,
+  name,
+  queueId,
+})
 
 const FETCH_QUEUES = "@backend/FETCH_QUEUES";
 type PersonDetails = "full" | "short";
@@ -26,7 +44,7 @@ export const fetchQueuesCreator = (placeId: string, personDetails: PersonDetails
   personDetails
 });
 
-type backendAction = CreateQueueAction | FetchQueuesAction;
+type backendAction = CreateQueueAction | FetchQueuesAction | CreatePersonAction;
 
 function* queueSaga(action: backendAction) {
   if (action.type === CREATE_QUEUE) {
@@ -55,6 +73,21 @@ function* queueSaga(action: backendAction) {
     } else {
       console.error("Queue fetch failed: ", response);
     }
+  } else if (action.type === CREATE_PERSON) {
+    const response = yield call(
+      fetch,
+      `/places/${action.placeId}/queues/${action.queueId}/entries`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: action.name }),
+      }
+    )
+    if (response.ok) {
+      console.log('Person created, response: ', response)
+    } else {
+      console.error('Person creation failed: ', response)
+    }
   }
 }
 
@@ -68,7 +101,7 @@ function* watchBackend() {
 
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES], queueSaga),
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON], queueSaga),
     watchBackend()
   ]);
 }
