@@ -154,7 +154,7 @@ def delete_entry(place_id, queue_id, entry_id):
     return ''
 
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['PUT'])
-def call_entry_from_queue(place_id, queue_id, entry_id):
+def update_entry_state(place_id, queue_id, entry_id):
     place = Place.query.filter_by(id=place_id).first()
     if place is None:
         abort(404)
