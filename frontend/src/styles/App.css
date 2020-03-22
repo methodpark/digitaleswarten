@@ -1,18 +1,24 @@
 :root {
-  --highlight-color: #900;
+  --primary-highlight-color:rgb(245, 133, 6);
+  --secondary-highlight-color: rgb(192, 106, 7);
   --main-padding: 8px;
   --secondary-padding: 2px;
   --main-margin: 8px;
-  --main-border: 1px solid #aaa;
-  --main-shadow: 1px 1px 3px #dcdcdc;
+  --main-border: 1px solid rgba(3, 3, 3, 0.4);
+  --main-shadow: 1px 1px 3px rgba(3, 3, 3, 0.4);
   --secondary-border: 1px solid #ddd;
 }
 
-#root {
+body {
   background: #fafafa;
+}
+
+#root {
+
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #333;
 }
 
 .admin-view {
@@ -24,10 +30,6 @@
   flex: 1;
 }
 
-h1 {
-  color: var(--highlight-color);
-}
-
 section {
   padding: var(--main-padding);
   border: var(--main-border);
@@ -35,7 +37,7 @@ section {
   margin: var(--main-margin);
   box-shadow: var(--main-shadow);
   flex: 1;
-  border-radius: 2px;
+  border-radius: 10px;
 }
 
 button, select, input, textarea {
@@ -53,7 +55,7 @@ select, input, textarea {
 }
 
 h2 {
-  color: var(--highlight-color);
+  color: var(--primary-highlight-color);
   border-bottom: var(--secondary-border);
   margin: 0px;
   margin-bottom: 1rem;
@@ -62,7 +64,7 @@ h2 {
 .sub-area {
   margin: 1rem var(--main-margin);
   border: var(--secondary-border);
-  border-radius: 2px;
+  border-radius: 10px;
   position: relative;
   padding: 1rem var(--main-padding) 0.5rem var(--main-padding);
 }
@@ -73,7 +75,7 @@ span.area-heading {
   top: -0.5rem;
   left: 5px;
   background: white;
-  color: var(--highlight-color);
+  color: var(--secondary-highlight-color);
 }
 
 .queue-list li {
@@ -94,7 +96,7 @@ span.area-heading {
 }
 
 span.optional-star {
-  color: var(--highlight-color);
+  color: var(--primary-highlight-color);
 }
 
 #create-person-free-text {
