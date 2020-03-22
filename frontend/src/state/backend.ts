@@ -1,4 +1,4 @@
-import { all, call, takeEvery, put, delay } from 'redux-saga/effects'
+import { all, call, takeEvery, put } from 'redux-saga/effects'
 import { updateQueueCreator } from './queue';
 
 // Create a queue
@@ -36,7 +36,7 @@ export const createPersonCreator = (
 // Fetch queue status
 const FETCH_QUEUES = "@backend/FETCH_QUEUES";
 type PersonDetails = "full" | "short";
-interface FetchQueuesAction {
+export interface FetchQueuesAction {
   type: typeof FETCH_QUEUES;
   placeId: string;
   personDetails: PersonDetails;
@@ -85,7 +85,7 @@ export const removePatientCreator = (placeId: string, queueId: string, entryId: 
   entryId
 });
 
-type backendAction = CreateQueueAction |
+type BackendAction = CreateQueueAction |
   FetchQueuesAction |
   CreatePersonAction |
   DeleteQueueAction |
@@ -95,7 +95,7 @@ const contentTypeJsonHeader = {
   'Content-Type': 'application/json'
 };
 
-function* queueSaga(action: backendAction) {
+function* queueSaga(action: BackendAction) {
   if (action.type === FETCH_QUEUES) {
     const response = yield call(fetch, `/places/${action.placeId}/queues?personDetails=${action.personDetails}`, {
       method: "GET",
@@ -150,17 +150,8 @@ function* queueSaga(action: backendAction) {
   }
 }
 
-function* watchBackend() {
-  // wait 3 seconds
-  while (true) {
-    yield put(fetchQueuesCreator(process.env.REACT_APP_PLACE_ID || "someplace", "short"));
-    yield delay(3000);
-  }
-}
-
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PATIENT, REMOVE_PATIENT], queueSaga),
-    watchBackend()
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PATIENT, REMOVE_PATIENT], queueSaga)
   ]);
 }
