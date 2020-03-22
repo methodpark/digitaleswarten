@@ -7,3 +7,12 @@ def get_entry_detail_level(request):
     if entry_level_detail  not in ['short', 'full']:
         abort(400)
     return entry_level_detail 
+
+def get_entry_state_query(request):
+    """
+    Returns weather the entry state is requested or throws 400 otherwise.
+    """
+    state_queried = request.args.get('state', None)
+    if state_queried is None:
+        abort(400)
+    return state_queried

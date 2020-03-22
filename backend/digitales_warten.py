@@ -138,6 +138,20 @@ def update_entry_state(place_id, queue_id, entry_id):
                    state=entry.state)
 
 
+@app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
+def query_entry_state(place_id, queue_id, entry_id):
+    person_detail_level = handle_get_queries.get_entry_state_query(request)
+
+    place = database_lookup.get_place_if_exists(place_id)
+    queue = database_lookup.get_queue_if_exists(place, queue_id)
+    entry = database_lookup.get_entry_if_exists(queue, entry_id)
+
+    return jsonify(id=entry.id,
+                   ticket_number=entry.ticket_number,
+                   name=entry.name,
+                   state=entry.state)
+
+
 if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
     http_server.listen(5000)
