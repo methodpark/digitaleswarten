@@ -57,7 +57,7 @@ def add_new_entry_to_db(db, queue, entry_name):
     if largest_previous_entry is None:
         ticket_number = 1
     else:
-        ticket_number =largest_previous_entry.ticket_number + 1
+        ticket_number = largest_previous_entry.ticket_number + 1
 
     try:
         new_entry = Entry(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
