@@ -30,7 +30,7 @@ Wartelokalität anlegen
 > JSON-Payload: { placeName: string; }
 > 
 > Answer: 200/OK;\
-> JSON-Payload: { id: string; placeName: string; }
+> JSON-Payload: { id: string; publicId: number; placeName: string; }
 >
 > Answer: 4xx/Not ok
 >
@@ -126,7 +126,7 @@ Auth: Public
 Zustand der Warteschlange abrufen
 ---------------------------------
 
-> HTTP-GET: /places/**\<place-id\>**/queues?personDetails=short
+> HTTP-GET: /places/**\<public-place-id\>**/queues?personDetails=short
 >
 > Answer: 200/OK;\
 > JSON-Payload: { id: string; name: string; entries: {id: string;
