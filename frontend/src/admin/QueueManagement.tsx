@@ -14,12 +14,13 @@ const QueueCreateBox = (props: AppState & DispatchProp<CreateQueueAction>) => {
   const nameInputRef = React.createRef<HTMLInputElement>();
 
   const createNewQueue = () => {
-    const currentValue = nameInputRef.current?.value;
-    if(currentValue === undefined) {
+    const nameElement = nameInputRef.current;
+    if(nameElement === null) {
       return;
     }
 
-    props.dispatch(createQueueCreator(locationParams.placeId, currentValue));
+    props.dispatch(createQueueCreator(locationParams.placeId, nameElement.value));
+    nameElement.value = '';
   }
 
   return (
