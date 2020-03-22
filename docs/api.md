@@ -107,6 +107,17 @@ Personen aus der Warteschlange aufrufen
 >
 > Answer: 4xx/Not ok
 
+Status einer Person in der Warteschlange abfragen
+-------------------------------------------------
+> HTTP-GET:
+> /places/\<place-id\>/queues/\<queue-id\>/entries/\<entry-id\>?state
+>
+> Answer: 200/OK
+> JSON-Payload: { id: string; ticketNumber: number; name: string; state: string}
+> `state` hat zwei mögliche Werte: "waiting" oder "called"
+>
+> Answer: 4xx/Not ok
+
 APIS für Patientenansicht
 =========================
 
