@@ -5,6 +5,7 @@ import { Queue } from '../model/queue'
 import { SectionBox } from './Boxes'
 import { connect } from 'react-redux'
 import { createPersonCreator } from '../state/backend'
+import { useParams } from 'react-router-dom'
 
 const PersonManagement = (props: AppState & { dispatch: any }) => {
   const { queues = [] } = props
@@ -20,6 +21,7 @@ const PersonManagement = (props: AppState & { dispatch: any }) => {
   )
   const [personName, setPersonName] = useState('')
   const optionalIndicator = <span className="optional-star">*</span>
+  const locationParams = useParams() as {placeId: string};
 
   return (
     <SectionBox name="Personen anlegen">
@@ -59,7 +61,7 @@ const PersonManagement = (props: AppState & { dispatch: any }) => {
           <button
             onClick={() =>
               props.dispatch(
-                createPersonCreator('somePlace', personName, selectedQueueId)
+                createPersonCreator(locationParams.placeId, personName, selectedQueueId)
               )
             }
           >
