@@ -4,8 +4,19 @@ import uuid from 'uuid/v4';
 
 import '../styles/Welcome.css';
 import virusLogo from '../img/wirvsvirus.png';
+import { Link, useHistory } from 'react-router-dom';
 
 export function PatientWelcome() {
+
+  const numberInputRef = React.createRef<HTMLInputElement>();
+  const history = useHistory();
+
+  const openPlace = () => {
+    const placeNumber = numberInputRef.current?.value;
+    if(placeNumber !== undefined && placeNumber !== '') {
+      history.push(`queues/${placeNumber}`);
+    }
+  }
 
   return(
     <main className="welcome-background-image">
@@ -17,14 +28,15 @@ export function PatientWelcome() {
       <div className="welcome-input-wrapper">
         <input
           className="welcome-patient-id-input"
-          type="text"
+          type="number"
           name="patient-id"
+          ref={numberInputRef}
           placeholder="Ihre Wartebereichsnummer">
         </input>
-        <div className="welcome-patient-button"></div>
+        <div className="welcome-patient-button" onClick={openPlace}><span className="screenreader-text">Wartebereich durch anklicken öffnen</span></div>
       </div>
 
-      <p>Sie sind Geschäftsinhaber? <a className="create-new-area" href={`${uuid()}/admin`}>Legen Sie sich einen eigenen Wartebereich an.</a></p>
+      <p>Sie sind Geschäftsinhaber? <Link className="create-new-area" to={`admin/${uuid()}`}>Legen Sie sich einen eigenen Wartebereich an.</Link></p>
 
       <footer className="welcome-patient-footer">
         <img

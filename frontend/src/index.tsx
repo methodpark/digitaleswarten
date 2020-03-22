@@ -25,9 +25,8 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route path="/:placeId/admin" component={App} />
-        <Route path="/:placeId/queues" component={QueueBoard} />
-        <Route path="/:placeId" component={QueueBoard} />
+        <Route path="/admin/:placeId" component={App} />
+        <Route path="/queues/:placeNumber" component={QueueBoard} />
         <Route path="/" component={PatientWelcome} />
       </Switch>
     </Router>
