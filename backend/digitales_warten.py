@@ -22,6 +22,7 @@ import random
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
 
+@app.route('/api/v1/places', methods=['POST'])
 @app.route('/places', methods=['POST'])
 def create_place():
     if 'application/json' not in request.headers['Content-Type']:
@@ -39,6 +40,7 @@ def create_place():
     return jsonify(id=new_place.id, name=new_place.name)
 
 
+@app.route('/api/v1/places/<place_id>/queues', methods=['POST'])
 @app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
     if 'application/json' not in request.headers['Content-Type']:
@@ -57,6 +59,7 @@ def create_queue(place_id):
     db.session.commit()
     return jsonify(id=queue.id, name=queue.name)
 
+@app.route('/api/v1/places/<place_id>/queues', methods=['GET'])
 @app.route('/places/<place_id>/queues', methods=['GET'])
 def get_queue_state(place_id):
     person_detail_level = request.args.get('personDetails', None)
@@ -104,6 +107,7 @@ def get_full_entry(entry):
            } 
     
 
+@app.route('/api/v1/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 def delete_queue(place_id, queue_id):
     place = Place.query.filter_by(id=place_id).first()
@@ -117,6 +121,8 @@ def delete_queue(place_id, queue_id):
     db.session.commit()
     return ''
 
+
+@app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries', methods=['POST'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries', methods=['POST'])
 def add_entry(place_id, queue_id):
     place = Place.query.filter_by(id=place_id).first()
