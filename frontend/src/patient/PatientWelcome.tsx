@@ -1,5 +1,6 @@
 import React from 'react';
 
+import '../Welcome.css';
 import virusLogo from '../img/wirvsvirus.png';
 
 export function PatientWelcome() {
