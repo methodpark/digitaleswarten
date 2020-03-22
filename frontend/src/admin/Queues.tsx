@@ -5,13 +5,15 @@ import { AppState } from '../state/state';
 import { connect, DispatchProp } from 'react-redux';
 import { SectionBox, InnerBox } from './Boxes';
 import { UpdatePersonAction, callPersonCreator, removePersonCreator } from '../state/backend'
+import { useParams } from 'react-router-dom';
 
 const PersonComponent = (props: {queueId: string, person: Person} & DispatchProp<UpdatePersonAction>) => {
 
   const { person, queueId } = props;
+  const locationParams = useParams() as {placeId: string};
 
-  const callPerson = () => props.dispatch(callPersonCreator('warmliebedeuten', queueId, person.id));
-  const deletePerson = () => props.dispatch(removePersonCreator('warmliebedeuten', queueId, person.id));
+  const callPerson = () => props.dispatch(callPersonCreator(locationParams.placeId, queueId, person.id));
+  const deletePerson = () => props.dispatch(removePersonCreator(locationParams.placeId, queueId, person.id));
 
   const buttonArea = () => (<div>
     <button onClick={callPerson}>Aufrufen</button>
