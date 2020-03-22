@@ -114,9 +114,6 @@ input:focus {
 }
 
 @media (min-width: 1000px) {
-  .welcome-background-image {
-    justify-content: center;
-  }
 
   .welcome-patient-text-wrapper {
     margin-top: 0;
