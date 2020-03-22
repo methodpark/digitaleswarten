@@ -10,6 +10,7 @@ from models.queue import Queue, add_new_queue_to_db
 from models.entry import Entry, add_new_entry_to_db
 from utils import handle_json
 from utils import database_lookup
+from utils import handle_get_queries
 
 from tornado.log import enable_pretty_logging
 import json
@@ -50,10 +51,7 @@ def create_queue(place_id):
 
 @app.route('/places/<place_id>/queues', methods=['GET'])
 def get_queue_state(place_id):
-    person_detail_level = request.args.get('personDetails', None)
-    if person_detail_level not in ['short', 'full']:
-        abort(400)
-
+    entry_level_detail = handle_get_queries.get_entry_detail_level(request) 
 
     place = database_lookup.get_place_if_exists(place_id)
     
@@ -67,9 +65,9 @@ def get_queue_state(place_id):
         if len(waiting_entries):
             entry = None
             for waiting_entry in waiting_entries:
-                if 'short' == person_detail_level:
+                if 'short' == entry_level_detail:
                     entry = waiting_entry.short_json()
-                if 'full' == person_detail_level:
+                if 'full' == entry_level_detail:
                     entry = waiting_entry.full_json()
 
                 queue_entries.append(entry)
