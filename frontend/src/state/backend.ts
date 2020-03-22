@@ -62,14 +62,24 @@ export const deleteQueuesCreator = (placeId: string, queueId: string): DeleteQue
 
 // Call a patient
 const CALL_PATIENT = "@backend/CALL_PATIENT";
-interface CallPatientAction {
-  type: typeof CALL_PATIENT;
+interface UpdatePatientAction {
+  type: typeof CALL_PATIENT | typeof REMOVE_PATIENT;
   placeId: string;
   queueId: string;
   entryId: string;
 }
-export const callPatientCreator = (placeId: string, queueId: string, entryId: string): CallPatientAction => ({
+export const callPatientCreator = (placeId: string, queueId: string, entryId: string): UpdatePatientAction => ({
   type: CALL_PATIENT,
+  placeId,
+  queueId,
+  entryId
+});
+
+
+// Remove a patient
+const REMOVE_PATIENT = "@backend/REMOVE_PATIENT";
+export const removePatientCreator = (placeId: string, queueId: string, entryId: string): UpdatePatientAction => ({
+  type: REMOVE_PATIENT,
   placeId,
   queueId,
   entryId
@@ -79,7 +89,7 @@ type backendAction = CreateQueueAction |
   FetchQueuesAction |
   CreatePersonAction |
   DeleteQueueAction |
-  CallPatientAction;
+  UpdatePatientAction;
 
 const contentTypeJsonHeader = {
   'Content-Type': 'application/json'
@@ -145,6 +155,15 @@ function* queueSaga(action: backendAction) {
     } else {
       console.error('Call patient failed');
     }
+  } else if (action.type === REMOVE_PATIENT) {
+    const response = yield call(fetch, `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`, {
+      method: 'DELETE'
+    });
+    if (response.ok) {
+      put(fetchQueuesCreator(action.placeId, "full"));
+    } else {
+      console.log("Remove patient failed");
+    }
   }
 }
 
@@ -158,7 +177,7 @@ function* watchBackend() {
 
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PATIENT], queueSaga),
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PATIENT, REMOVE_PATIENT], queueSaga),
     watchBackend()
   ]);
 }
