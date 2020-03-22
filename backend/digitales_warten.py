@@ -26,6 +26,9 @@ def hello_world():
 @app.route('/api/v1/places', methods=['POST'])
 @app.route('/places', methods=['POST'])
 def create_place():
+    """
+    Private ID only
+    """
     data = handle_json.get_places_json_data(request)
     place_name = data['placeName']
 
@@ -34,7 +37,7 @@ def create_place():
 
     new_place = add_new_place_to_db(db, place_name, place_password)
 
-    return jsonify(id=new_place.id, name=new_place.name)
+    return jsonify(id=new_place.id, publicId=new_place.public_id, name=new_place.name)
 
 
 @app.route('/api/v1/places/<place_id>', methods=['GET'])
@@ -48,6 +51,9 @@ def query_place(place_id):
 @app.route('/api/v1/places/<place_id>/queues', methods=['POST'])
 @app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
+    """
+    Private ID only
+    """
     data = handle_json.get_queue_json_data(request)
     queue_name = data['queueName']
 
@@ -67,9 +73,15 @@ def create_queue(place_id):
 @app.route('/api/v1/places/<place_id>/queues', methods=['GET'])
 @app.route('/places/<place_id>/queues', methods=['GET'])
 def get_queue_state(place_id):
+    """
+    Public and private usage.
+    """
     entry_level_detail = handle_get_queries.get_entry_detail_level(request) 
 
-    place = database_lookup.get_place_if_exists(place_id)
+    if 'short' == entry_level_detail:
+        place = database_lookup.get_place_by_public_id(place_id)
+    elif 'full' == entry_level_detail:
+        place = database_lookup.get_place_if_exists(place_id)
     return json.dumps(gather_places_queues_state(place, entry_level_detail))
 
 def gather_places_queues_state(place, entry_level_detail):
@@ -107,6 +119,9 @@ def gather_queues_entries(queue, entry_level_detail):
 @app.route('/api/v1/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 def delete_queue(place_id, queue_id):
+    """
+    Private ID only
+    """
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
 
@@ -118,6 +133,9 @@ def delete_queue(place_id, queue_id):
 @app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries', methods=['POST'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries', methods=['POST'])
 def create_entry(place_id, queue_id):
+    """
+    Private ID only
+    """
     data = handle_json.get_entries_json_data(request)
     entry_name = data['name']
 
@@ -133,6 +151,9 @@ def create_entry(place_id, queue_id):
 @app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
 def delete_entry(place_id, queue_id, entry_id):
+    """
+    Private ID only
+    """
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
     entry = database_lookup.get_entry_if_exists(queue, entry_id)
@@ -144,6 +165,9 @@ def delete_entry(place_id, queue_id, entry_id):
 @app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['PUT'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['PUT'])
 def update_entry_state(place_id, queue_id, entry_id):
+    """
+    Private ID only
+    """
     data = handle_json.get_entries_state_json_data(request)
     new_entry_state = data['state']
 
@@ -161,6 +185,9 @@ def update_entry_state(place_id, queue_id, entry_id):
 @app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
 def query_entry_state(place_id, queue_id, entry_id):
+    """
+    Private ID only
+    """
     person_detail_level = handle_get_queries.get_entry_state_query(request)
 
     place = database_lookup.get_place_if_exists(place_id)
