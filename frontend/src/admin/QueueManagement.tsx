@@ -60,7 +60,7 @@ const QueueDeleteBox = (props: AppState &  DispatchProp<DeleteQueueAction>) => {
   );
 }
 
-const QueuesManagement = (props: AppState & { dispatch: any }) => {
+const QueuesManagement = (props: AppState & DispatchProp<CreateQueueAction | DeleteQueueAction>) => {
   return (
     <SectionBox name="Warteschlangen-Übersicht">
       <QueueCreateBox {...props}></QueueCreateBox>
