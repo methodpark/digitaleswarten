@@ -17,7 +17,11 @@
 
 .admin-view {
   display: flex;
-  width: 100%
+  width: 100%;
+}
+
+.admin-view main {
+  flex: 1;
 }
 
 h1 {
@@ -91,10 +95,6 @@ span.area-heading {
 
 span.optional-star {
   color: var(--highlight-color);
-}
-
-main {
-  flex: 1;
 }
 
 #create-person-free-text {
