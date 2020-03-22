@@ -1,0 +1,57 @@
+.queueboard-wrapper {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.queue-wrapper {
+  min-width: 280px;
+  max-width: 400px;
+  min-height: 400px;
+  max-height: 600px;
+
+  border-radius: 6px;
+  padding: 10px 10px;
+  margin: 0 20px 20px 20px;
+  overflow: hidden;
+
+  border: solid rgb(150, 150, 150) 1px;
+  background: rgba(10, 10, 10, 0.781);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-container {
+  overflow-y: auto;
+}
+
+.queue-wrapper .queue-header {
+  font-size: 25px;
+  text-align: center;
+}
+
+.queueboard-patient-entry {
+  background: white;
+  border-radius: 3px;
+  padding: 20px 20px;
+  margin: 10px 10px;
+  box-shadow: 0px 0px 5px 0px rgba(176,176,176,1);
+  color: rgba(10, 10, 10, 0.781);
+}
+
+.queueboard-patient-entry.called {
+  border: solid rgb(245, 133, 6) 2px;
+  box-shadow: 0px 0px 4px 1px rgb(245, 133, 6);
+  font-weight: bold;
+}
+
+.queueboard-patient-entry>img {
+  width: 50px;
+  height: 50px;
+}
+
+.ticket-number {
+  font-size: 2rem;
+}
