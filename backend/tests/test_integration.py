@@ -54,3 +54,19 @@ class TestBackendIntegration:
 
     def test_create_entry_ticket_number_is_3(self, entry_ticket):
         assert entry_ticket == 3
+
+    def test_change_entry_to_called(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryCalledState'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
+                                       json={'state': 'called'})
+        assert entry_response.json()['state'] == 'called'
+
+    def test_change_entry_to_waiting(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryWaitingState'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
+                                       json={'state': 'waiting'})
+        assert entry_response.json()['state'] == 'waiting'
