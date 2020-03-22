@@ -97,7 +97,7 @@ const contentTypeJsonHeader = {
 
 function* queueSaga(action: BackendAction) {
   if (action.type === FETCH_QUEUES) {
-    const response = yield call(fetch, `/places/${action.placeId}/queues?personDetails=${action.personDetails}`, {
+    const response = yield call(fetch, `/api/v1/places/${action.placeId}/queues?personDetails=${action.personDetails}`, {
       method: "GET",
       headers: contentTypeJsonHeader
     });
@@ -138,7 +138,7 @@ function* queueSaga(action: BackendAction) {
     return;
   }
 
-  const response = yield call(fetch, url, {
+  const response = yield call(fetch, `/api/v1${url}`, {
     method,
     headers: contentTypeJsonHeader,
     body
