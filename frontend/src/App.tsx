@@ -11,15 +11,17 @@ import QueueManagement from './admin/QueueManagement';
 function App() {
   return (
     <>
-      <main>
-        <h1>Warte Frei</h1>
-        <PersonManagement />
-        <Queues />
-      </main>
-      <aside>
-        <QueueOverview />
-        <QueueManagement />
-      </aside>
+      <h1>Warte Frei</h1>
+      <div className="admin-view">
+        <main>
+          <PersonManagement />
+          <Queues />
+        </main>
+        <aside>
+          <QueueOverview />
+          <QueueManagement />
+        </aside>
+      </div>
     </>
   );
 }
