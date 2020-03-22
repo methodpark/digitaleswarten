@@ -29,7 +29,7 @@ const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) =>
     }
 
     props.dispatch(createPersonCreator(locationParams.placeId, name, queueId));
-    nameRef.current.name = '';
+    nameRef.current.value = '';
 
   }
 
