@@ -15,9 +15,9 @@ services:
         ports:
             - 5001:5001
     nginx:
-        image: nginx:latest
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+        build:
+            context: nginx
+            dockerfile: Dockerfile
         ports:
             - 5050:5050
         depends_on:
