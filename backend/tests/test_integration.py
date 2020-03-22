@@ -88,3 +88,13 @@ class TestBackendIntegration:
         queue_response = requests.post(f'{self.host}/places/{place_id}/queues',
                                        json={'queueName': 3})
         assert queue_response.status_code == 400
+
+    def test_create_entry_json_incorrect_field__return4000(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'incorrectJSONField': 'TestEntry'})
+        assert entry_response.status_code == 400
+
+    def test_create_entry_json_incorrect_type__return4000(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 3})
+        assert entry_response.status_code == 400
