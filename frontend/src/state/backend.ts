@@ -96,20 +96,7 @@ const contentTypeJsonHeader = {
 };
 
 function* queueSaga(action: backendAction) {
-  if (action.type === CREATE_QUEUE) {
-    const response = yield call(fetch, `/places/${action.placeId}/queues`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ queueName: action.name })
-    });
-    if (response.ok) {
-      console.log("Queue created, response: ", response);
-    } else {
-      console.error("Queue creation failed: ", response);
-    }
-  } else if (action.type === FETCH_QUEUES) {
+  if (action.type === FETCH_QUEUES) {
     const response = yield call(fetch, `/places/${action.placeId}/queues?personDetails=${action.personDetails}`, {
       method: "GET",
       headers: contentTypeJsonHeader
@@ -120,50 +107,46 @@ function* queueSaga(action: backendAction) {
     } else {
       console.error("Queue fetch failed: ", response);
     }
+    return;
+  }
+
+  let url;
+  let method = "GET";
+  let body = "{}";
+
+  if (action.type === CREATE_QUEUE) {
+    url = `/places/${action.placeId}/queues`;
+    method = 'POST';
+    body = JSON.stringify({ queueName: action.name });
   } else if (action.type === CREATE_PERSON) {
-    const response = yield call(
-      fetch,
-      `/places/${action.placeId}/queues/${action.queueId}/entries`,
-      {
-        method: 'POST',
-        headers: contentTypeJsonHeader,
-        body: JSON.stringify({ name: action.name }),
-      }
-    )
-    if (response.ok) {
-      console.log('Person created, response: ', response)
-    } else {
-      console.error('Person creation failed: ', response)
-    }
+    url = `/places/${action.placeId}/queues/${action.queueId}/entries`;
+    method = 'POST';
+    body = JSON.stringify({ name: action.name });
   } else if (action.type === DELETE_QUEUE) {
-    const response = yield call(fetch, `/places/${action.placeId}/queues/${action.queueId}`, {
-      method: 'DELETE'
-    });
-    if (response.ok) {
-      put(fetchQueuesCreator(action.placeId, "full"));
-    } else {
-      console.error('Delete queue failed');
-    }
+    url = `/places/${action.placeId}/queues/${action.queueId}`;
+    method = 'DELETE';
   } else if (action.type === CALL_PATIENT) {
-    const response = yield call(fetch, `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`, {
-      method: 'PUT',
-      headers: contentTypeJsonHeader,
-      body: JSON.stringify({state: 'called'})
-    });
-    if (response.ok) {
-      put(fetchQueuesCreator(action.placeId, "full"));
-    } else {
-      console.error('Call patient failed');
-    }
+    url = `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`;
+    method = 'PUT';
+    body = JSON.stringify({state: 'called'});
   } else if (action.type === REMOVE_PATIENT) {
-    const response = yield call(fetch, `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`, {
-      method: 'DELETE'
-    });
-    if (response.ok) {
-      put(fetchQueuesCreator(action.placeId, "full"));
-    } else {
-      console.log("Remove patient failed");
-    }
+    url = `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`;
+    method = 'DELETE';
+  }
+
+  if (url === undefined) {
+    return;
+  }
+
+  const response = yield call(fetch, url, {
+    method,
+    headers: contentTypeJsonHeader,
+    body
+  });
+  if (response.ok) {
+    put(fetchQueuesCreator(action.placeId, "full"));
+  } else {
+    console.error(`Request for action ${action.type} failed.`);
   }
 }
 
