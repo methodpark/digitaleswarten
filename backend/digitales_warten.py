@@ -59,7 +59,7 @@ def get_queue_state(place_id):
     queue_states = []
     for attached_queue in attached_queues:
         queue_entries = []
-        waiting_entries = Entry.query.filter_by(queue=attached_queue).all()
+        waiting_entries = database_lookup.get_all_entries_of_queue(attached_queue)
         if len(waiting_entries):
             entry = None
             for waiting_entry in waiting_entries:
