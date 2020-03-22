@@ -121,6 +121,7 @@ def create_entry(place_id, queue_id):
                    name=new_entry.name,
                    ticketNumber=new_entry.ticket_number)
 
+@app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
 def delete_entry(place_id, queue_id, entry_id):
     place = database_lookup.get_place_if_exists(place_id)
@@ -131,6 +132,7 @@ def delete_entry(place_id, queue_id, entry_id):
     db.session.commit()
     return ''
 
+@app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['PUT'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['PUT'])
 def update_entry_state(place_id, queue_id, entry_id):
     data = handle_json.get_entries_state_json_data(request)
@@ -147,7 +149,7 @@ def update_entry_state(place_id, queue_id, entry_id):
                    name=entry.name,
                    state=entry.state)
 
-
+@app.route('/api/v1/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
 def query_entry_state(place_id, queue_id, entry_id):
     person_detail_level = handle_get_queries.get_entry_state_query(request)
@@ -167,6 +169,7 @@ if __name__ == '__main__':
     http_server.listen(5000)
     IOLoop.instance().start()
 
+@app.route('/api/v1/places/<place_id>/<ticket_id>', methods=['GET'])
 @app.route('/places/<place_id>/<ticket_id>', methods=['GET'])
 def inform_patient(place_id, ticket_id):
     """
