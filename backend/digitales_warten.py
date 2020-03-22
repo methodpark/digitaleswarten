@@ -45,8 +45,7 @@ def create_place():
 def query_place(place_id):
     place = database_lookup.get_place_if_exists(place_id)
 
-    return jsonify(id=place.id, name=place.name)
-
+    return jsonify(id=place.id, publicId=place.public_id, name=place.name)
 
 
 @app.route('/api/v1/places/<place_id>/queues', methods=['POST'])
