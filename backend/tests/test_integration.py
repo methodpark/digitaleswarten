@@ -86,17 +86,33 @@ class TestBackendIntegration:
                                        json={'incorrectJSONField': 'TestQueue'})
         assert queue_response.status_code == 400
 
-    def test_create_queue_json_incorrect_type__return4000(self, place_id):
+    def test_create_queue_json_incorrect_type__return400(self, place_id):
         queue_response = requests.post(f'{self.host}/places/{place_id}/queues',
                                        json={'queueName': 3})
         assert queue_response.status_code == 400
 
-    def test_create_entry_json_incorrect_field__return4000(self, place_id, queue_id):
+    def test_create_entry_json_incorrect_field__return400(self, place_id, queue_id):
         entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
                                         json={'incorrectJSONField': 'TestEntry'})
         assert entry_response.status_code == 400
 
-    def test_create_entry_json_incorrect_type__return4000(self, place_id, queue_id):
+    def test_create_entry_json_incorrect_type__return400(self, place_id, queue_id):
         entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
                                         json={'name': 3})
+        assert entry_response.status_code == 400
+
+    def test_get_entry_state_json_incorrect_field__return400(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryStateJsonValidation_1'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
+                                     json={'status': 'waiting'})
+        assert entry_response.status_code == 400
+
+    def test_get_entry_state_json_incorrect_type__return400(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryStateJsonValidation_2'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
+                                     json={'state': 1})
         assert entry_response.status_code == 400
