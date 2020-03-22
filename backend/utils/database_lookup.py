@@ -14,6 +14,17 @@ def get_place_if_exists(place_id):
         abort(404)
     return place
 
+def get_place_by_public_id(public_place_id):
+    """
+    Finds places linked to the public place id.
+    Throws a 404 otherwise.
+    """
+    place = Place.query.filter_by(public_id=public_place_id).first()
+    if place is None:
+        abort(404)
+    return place
+
+
 def get_place(place_id):
     """
     Returns the place linked to the place id.
