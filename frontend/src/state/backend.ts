@@ -103,7 +103,7 @@ function* queueSaga(action: BackendAction) {
     });
     if (response.ok) {
       const data = yield call([response, response.json]);
-      put(updateQueueCreator(data));
+      yield put(updateQueueCreator(data));
     } else {
       console.error("Queue fetch failed: ", response);
     }
