@@ -98,8 +98,9 @@ Personen aus der Warteschlange aufrufen
 
 > HTTP-PUT:
 > /places/\<place-id\>/queues/\<queue-id\>/entries/\<entry-id\>
-> JSON-Payload: { state: string }
+> JSON-Payload: { state: string; phone_number: string}
 > `state` hat zwei mögliche Werte: "waiting" oder "called"
+> `phone_number` must be of the form +49[0-9]\* if no number is given set it to '-1'
 >
 > Answer: 200/OK
 > JSON-Payload: { ticketNumber: number; name: string; state: string}
