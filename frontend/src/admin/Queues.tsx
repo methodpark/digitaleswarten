@@ -22,7 +22,7 @@ const PersonComponent = (props: {queueId: string, person: Person} & DispatchProp
 
   return (
     <li key={person.id}>
-      {person.name}
+      {person.name} ({person.ticketNumber})
       {buttonArea()}
     </li>
   );
