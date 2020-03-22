@@ -8,6 +8,7 @@ from app import app, db
 from models.place import add_new_place_to_db
 from models.queue import Queue, add_new_queue_to_db
 from models.entry import Entry, add_new_entry_to_db
+from notifier import sms
 from utils import handle_json
 from utils import database_lookup
 from utils import handle_get_queries
@@ -125,13 +126,17 @@ def delete_entry(place_id, queue_id, entry_id):
 def update_entry_state(place_id, queue_id, entry_id):
     data = handle_json.get_entries_state_json_data(request)
     new_entry_state = data['state']
+    phone_number = data['phone_number']
 
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
     entry = database_lookup.get_entry_if_exists(queue, entry_id)
 
-    if not entry.set_state(new_entry_state):
+    return_state = entry.set_state(new_entry_state)
+    if 'failed' == return_state:
         abort(400)
+    if 'called' == return_state and '-1' != phone_number:
+        sms.notify_entry(entry.name, phone_number, place.name)
     db.session.commit()
     return jsonify(ticketNumber=entry.ticket_number,
                    name=entry.name,
@@ -140,7 +145,7 @@ def update_entry_state(place_id, queue_id, entry_id):
 
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
 def query_entry_state(place_id, queue_id, entry_id):
-    person_detail_level = handle_get_queries.get_entry_state_query(request)
+    handle_get_queries.get_entry_state_query(request)
 
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)

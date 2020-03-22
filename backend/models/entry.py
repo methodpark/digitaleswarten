@@ -19,13 +19,12 @@ class Entry(db.Model):
         Args:
             - new_state (String): must either be "waiting" or "called"
         Returns:
-            - (Bool): True on success, False if the entered value was not in
-                      the value range
+            - (String): Either the new entry state or "failed"
         """
         if new_state not in ['waiting', 'called']:
-            return False
+            return 'failed'
         self.state = new_state
-        return True
+        return self.state
 
     def __repr__(self):
         return f'<Entry {id}>'

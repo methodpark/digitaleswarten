@@ -63,6 +63,7 @@ def validate_entry_state_set(data):
         'properties':
         {
             'state': {'type': 'string'},
+            'phone_number' : {'type': 'string'},
         },
     }
     return validate_schema(data, schema)
