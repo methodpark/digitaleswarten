@@ -24,7 +24,7 @@ export function QueueBoard(props: AppState) {
       {queues.map((queue: Queue) => {
         return queue.entries.map((entry: Person) => {
           return (
-            <div key={entry.id} className="queueboard-patient-entry">{entry.id}
+            <div key={entry.id} className="queueboard-patient-entry">{entry.ticketNumber}
               <img alt="An icon showing a patient" src={icon}></img>
             </div>
           )
