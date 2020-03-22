@@ -93,6 +93,20 @@ Personen-IDs aus Queues entfernen
 >
 > Answer: 4xx/Not ok
 
+Personen aus der Warteschlange aufrufen
+---------------------------------------
+
+> HTTP-PUT:
+> /places/\<place-id\>/queues/\<queue-id\>/entries/\<entry-id\>
+> JSON-Payload: { state: string }
+> `state` hat zwei mögliche Werte: "waiting" oder "called"
+>
+> Answer: 200/OK
+> JSON-Payload: { ticketNumber: number; name: string; state: string}
+> `state` hat zwei mögliche Werte: "waiting" oder "called"
+>
+> Answer: 4xx/Not ok
+
 APIS für Patientenansicht
 =========================
 
