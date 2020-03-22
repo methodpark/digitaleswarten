@@ -65,7 +65,7 @@ Zustand der Warteschlange abrufen
 >
 > Answer: 200/OK;\
 > JSON-Payload: { id: string; name: string; entries: {id: string;
-> ticketNumber: number; name: string}\[\] }\[\]
+> ticketNumber: number; name: string; state: string }\[\] }\[\]
 >
 > Answer: 4xx/Not ok
 >
@@ -130,7 +130,7 @@ Zustand der Warteschlange abrufen
 >
 > Answer: 200/OK;\
 > JSON-Payload: { id: string; name: string; entries: {id: string;
-> ticketNumber: number}\[\] }\[\]
+> ticketNumber: number; state: string}\[\] }\[\]
 >
 > Answer: 4xx/Not ok
 
