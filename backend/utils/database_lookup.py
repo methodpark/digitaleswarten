@@ -25,7 +25,7 @@ def get_queue_if_exists(place, queue_id):
         abort(404)
     return queue
 
-def get_entry_if_exists(place, queue, entry_id):
+def get_entry_if_exists(queue, entry_id):
     """
     Returns the entry in a queue of a place linked to the entry_id.
     Throws a 404 otherwise.

@@ -115,7 +115,7 @@ def create_entry(place_id, queue_id):
 def delete_entry(place_id, queue_id, entry_id):
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
-    entry = database_lookup.get_entry_if_exists(place, queue, entry_id)
+    entry = database_lookup.get_entry_if_exists(queue, entry_id)
 
     db.session.delete(entry)
     db.session.commit()
@@ -128,7 +128,7 @@ def update_entry_state(place_id, queue_id, entry_id):
 
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
-    entry = database_lookup.get_entry_if_exists(place, queue, entry_id)
+    entry = database_lookup.get_entry_if_exists(queue, entry_id)
 
     if not entry.set_state(new_entry_state):
         abort(400)
