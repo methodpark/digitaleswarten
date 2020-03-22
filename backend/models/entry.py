@@ -33,7 +33,7 @@ class Entry(db.Model):
     def short_json(self):
         return {
                  'id': self.id,
-                 'ticket_number' : self.ticket_number,
+                 'ticketNumber' : self.ticket_number,
                  'state': self.state
                }
 
@@ -41,7 +41,7 @@ class Entry(db.Model):
         return {
                  'id': self.id,
                  'name': self.name,
-                 'ticket_number' : self.ticket_number,
+                 'ticketNumber' : self.ticket_number,
                  'state': self.state
                }
 
