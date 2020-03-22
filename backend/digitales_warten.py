@@ -45,7 +45,6 @@ def query_place(place_id):
     return jsonify(id=place.id, name=place.name)
 
 
-
 @app.route('/api/v1/places/<place_id>/queues', methods=['POST'])
 @app.route('/places/<place_id>/queues', methods=['POST'])
 def create_queue(place_id):
