@@ -122,3 +122,15 @@ Zustand der Warteschlange abrufen
 > ticketNumber: number}\[\] }\[\]
 >
 > Answer: 4xx/Not ok
+
+Zustand der Warteschlange über place-id und ticked-id abfragen
+-----------------------------------------------------------------
+
+Ticket ID und Place ID erhält der Patient von der Praxis.
+
+> HTTP-GET: /places/**\<place-id\>**/**\<ticket-id\>**
+>
+> Answer: 200/OK;\
+> JSON-Payload: { queueSize: number; hasBeenCalledToFrontdesk: boolean }
+>
+> Answer: 4xx/Not ok

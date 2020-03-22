@@ -8,9 +8,11 @@ import App from './App';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { backendSaga } from './state/backend';
 import createSagaMiddleware from 'redux-saga';
 import { queueReducer } from './state/queue';
+import { PatientWelcome } from './patient/PatientWelcome';
 
 const backendMiddleware = createSagaMiddleware();
 
@@ -18,9 +20,15 @@ const store = createStore(queueReducer, applyMiddleware(backendMiddleware));
 
 backendMiddleware.run(backendSaga);
 
-ReactDOM.render(<Provider store={store}>
-  <App />
-</Provider>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/admin" component={App} />
+        <Route path="/" component={PatientWelcome} />
+      </Switch>
+    </Router>
+  </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
