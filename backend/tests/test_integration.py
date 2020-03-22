@@ -45,7 +45,7 @@ class TestBackendIntegration:
     def test_get_queue_state(self, place_id, queue_id):
         requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
                                         json={'name': 'TestEntryQueueState'})
-        place_response = requests.get(f'{self.host}/places/{place_id}/queues?personDetails=short')
+        place_response = requests.get(f'{self.host}/places/{place_id}/queues?personDetails=full')
         assert place_response
 
     def test_create_entry(self, entry_id):
@@ -147,3 +147,16 @@ class TestBackendIntegration:
         place_response = requests.get(f'{self.host}/places/{place_id}')
 
         assert place_id == place_response.json()['id']
+
+    def test_public_id_from_private_creation(self):
+        place_response = requests.post(f'{self.host}/places', json={'placeName': 'TestPublicPraxis'})
+        place_id = place_response.json()['id']
+        public_place_id = place_response.json()['publicId']
+        queue_response = requests.post(f'{self.host}/places/{place_id}/queues',
+                                       json={'queueName': 'TestQueue'})
+        queue_id = queue_response.json()['id']
+        public_place_response = requests.get(f'{self.host}/places/{public_place_id}/queues?personDetails=short')
+        assert public_place_response.json()[0]['id'] == queue_id
+        private_place_response = requests.get(f'{self.host}/places/{place_id}/queues?personDetails=full')
+        assert private_place_response.json()[0]['id'] == queue_id
+
