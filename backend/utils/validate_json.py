@@ -18,3 +18,9 @@ def validate_queues_post(data):
         'queueName': 'string'
     }
     return validate_schema(data, schema)
+
+def validate_entries_post(data):
+    schema = {
+        'name': 'string'
+    }
+    return validate_schema(data, schema)
