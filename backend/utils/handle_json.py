@@ -44,7 +44,7 @@ def get_entries_state_json_data(request):
     """
     validate_json.has_json_header(request)
     data = request.json
-    if not validate_json.validate_entry_state_get(data):
+    if not validate_json.validate_entry_state_set(data):
         abort(400)
     return data
 
