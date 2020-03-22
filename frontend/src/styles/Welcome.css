@@ -11,7 +11,7 @@
 }
 
 .welcome-patient-text-wrapper {
-  margin: 100px 0;
+  margin-top: 20px;
   text-align: center;
   color: #333;
   padding: 0 20px;
@@ -63,6 +63,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.create-new-area {
+  color: rgb(245, 133, 6);
+}
+
+.create-new-area:hover {
+  color: rgb(192, 106, 7);
 }
 
 input:focus {

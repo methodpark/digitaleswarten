@@ -23,6 +23,9 @@ export function PatientWelcome() {
         </input>
         <div className="welcome-patient-button"></div>
       </div>
+
+      <p>Sie sind Geschäftsinhaber? <a className="create-new-area" href={`${uuid()}/admin`}>Legen Sie sich einen eigenen Wartebereich an.</a></p>
+
       <footer className="welcome-patient-footer">
         <img
           className="welcome-patient-virus-logo"
