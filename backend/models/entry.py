@@ -3,6 +3,7 @@ from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
 
 from app import db
+from models.queue import Queue
 from utils.id_generator import generate_entry_id
 
 class Entry(db.Model):
@@ -46,20 +47,32 @@ class Entry(db.Model):
                }
 
 
-def add_new_entry_to_db(db, queue, entry_name):
+def add_new_entry_to_db(db, place, entry_name):
     """
-    Creates a new queue with queue_name and returns.
+    Creates a new entry with entry_name and returns.
     """
     entry_id = generate_entry_id(entry_name)
-    largest_previous_entry = db.session.query(Entry) \
-                                       .filter_by(queue=queue) \
-                                       .order_by(desc(Entry.ticket_number)) \
-                                       .limit(1) \
-                                       .first()
-    if largest_previous_entry is None:
+    place_queues = Queue.query.filter_by(place=place).all()
+    largest_place_entry = None
+    for queue in place_queues:
+        largest_queue_entry = db.session.query(Entry) \
+                                        .filter_by(queue=queue) \
+                                        .order_by(desc(Entry.ticket_number)) \
+                                        .limit(1) \
+                                        .first()
+        if largest_queue_entry is None:
+            continue
+        elif largest_place_entry is None:
+            largest_place_entry = largest_queue_entry
+        elif largest_place_entry.ticket_number < largest_queue_entry.ticket_number:
+            largest_place_entry = largest_queue_entry
+        else:
+            continue
+            
+    if largest_place_entry is None:
         ticket_number = 1
     else:
-        ticket_number = largest_previous_entry.ticket_number + 1
+        ticket_number = largest_place_entry.ticket_number + 1
 
     try:
         new_entry = Entry(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
