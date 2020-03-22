@@ -9,7 +9,8 @@ class TestBackendIntegration:
 
     @pytest.fixture
     def place_id(self):
-        place_response = requests.post(f'{self.host}/places', json={'placeName': 'TestPraxis'})
+        place_response = requests.post(f'{self.host}/places',
+                                       json={'placeName': 'TestPraxis'})
         return place_response.json()['id']
 
     @pytest.fixture
@@ -62,7 +63,7 @@ class TestBackendIntegration:
                                         json={'name': 'TestEntryCalledState'})
         entry_id = entry_response.json()['id']
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
-                                       json={'state': 'called'})
+                json={'state': 'called', 'phone_number': '-1'})
         assert entry_response.json()['state'] == 'called'
 
     def test_change_entry_to_waiting(self, place_id, queue_id):
@@ -70,7 +71,7 @@ class TestBackendIntegration:
                                         json={'name': 'TestEntryWaitingState'})
         entry_id = entry_response.json()['id']
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
-                                       json={'state': 'waiting'})
+                json={'state': 'waiting', 'phone_number': '-1'})
         assert entry_response.json()['state'] == 'waiting'
 
     def test_create_place_json_incorrect_field__return400(self):
@@ -106,7 +107,7 @@ class TestBackendIntegration:
                                         json={'name': 'TestEntryStateJsonValidation_1'})
         entry_id = entry_response.json()['id']
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
-                                     json={'status': 'waiting'})
+                json={'status': 'waiting', 'phone_number': '-1'})
         assert entry_response.status_code == 400
 
     def test_get_entry_state_json_incorrect_type__return400(self, place_id, queue_id):
@@ -114,7 +115,7 @@ class TestBackendIntegration:
                                         json={'name': 'TestEntryStateJsonValidation_2'})
         entry_id = entry_response.json()['id']
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
-                                     json={'state': 1})
+                json={'state': 1, 'phone_number': '-1'})
         assert entry_response.status_code == 400
 
     def test_get_waiting_state_of_entry(self, place_id, queue_id):
@@ -129,6 +130,15 @@ class TestBackendIntegration:
                                         json={'name': 'TestEntryQueryCalledState'})
         entry_id = entry_response.json()['id']
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
-                                       json={'state': 'called'})
+                json={'state': 'called', 'phone_number': '-1'})
         entry_response = requests.get(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}?state')
+        assert entry_response.json()['state'] == 'called'
+
+    @pytest.mark.skip
+    def test_notifier(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryNotifier'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
+                json={'state': 'called', 'phone_number': '-1'}) # Add test number here!
         assert entry_response.json()['state'] == 'called'
