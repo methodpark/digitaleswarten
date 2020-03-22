@@ -5,7 +5,7 @@ from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 
 from app import app, db
-from models.place import add_new_place_to_db
+from models.place import add_new_place_to_db, add_new_place_to_db_with_place_id
 from models.queue import Queue, add_new_queue_to_db
 from models.entry import Entry, add_new_entry_to_db
 from utils import handle_json
@@ -42,7 +42,11 @@ def create_queue(place_id):
     data = handle_json.get_queue_json_data(request)
     queue_name = data['queueName']
 
-    place = database_lookup.get_place_if_exists(place_id)
+    place = database_lookup.get_place(place_id)
+
+    if place is None:
+        # TODO: How to create password in this case?
+        place = add_new_place_to_db_with_place_id(db, place_id, place_id, '')
 
     # TODO: Check password here
 
