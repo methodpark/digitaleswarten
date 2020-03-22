@@ -57,7 +57,7 @@ def validate_entries_post(data):
     return validate_schema(data, schema)
 
 
-def validate_entry_state_get(data):
+def validate_entry_state_set(data):
     schema = {
         'type': 'object',
         'properties':
