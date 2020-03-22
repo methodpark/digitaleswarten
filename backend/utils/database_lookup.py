@@ -9,10 +9,17 @@ def get_place_if_exists(place_id):
     Returns the place linked to the place id.
     Throws a 404 otherwise.
     """
-    place = Place.query.filter_by(id=place_id).first()
+    place = get_place(place_id)
     if place is None:
         abort(404)
     return place
+
+def get_place(place_id):
+    """
+    Returns the place linked to the place id.
+    Returns None if place does not exist
+    """
+    return Place.query.filter_by(id=place_id).first()
 
 def get_queue_if_exists(place, queue_id):
     """
