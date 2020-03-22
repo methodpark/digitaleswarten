@@ -22,13 +22,18 @@ export function QueueBoard(props: AppState) {
   return (
     <div className="queueboard-wrapper">
       {queues.map((queue: Queue) => {
-        return queue.entries.map((entry: Person) => {
-          return (
-            <div key={entry.id} className="queueboard-patient-entry">{entry.ticketNumber}
-              <img alt="An icon showing a patient" src={icon}></img>
-            </div>
-          )
-        })
+        return (
+          <div className="queue-wrapper">
+            <div className="queue-header">{queue.name}</div>
+            {queue.entries.map((entry: Person) => {
+              return (
+                <div key={entry.id} className="queueboard-patient-entry">{entry.ticketNumber}
+                  <img alt="An icon showing a patient" src={icon}></img>
+                </div>
+              )
+            })}
+          </div>
+        )
       })}
     </div>
   );
