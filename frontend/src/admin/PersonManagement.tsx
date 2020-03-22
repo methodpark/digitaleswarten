@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import { AppState } from '../state/state'
 import { Queue } from '../model/queue'
 import { SectionBox } from './Boxes'
-import { connect } from 'react-redux'
-import { createPersonCreator } from '../state/backend'
+import { connect, DispatchProp } from 'react-redux'
+import { createPersonCreator, CreatePersonAction } from '../state/backend'
 import { useParams } from 'react-router-dom'
 
-const PersonManagement = (props: AppState & { dispatch: any }) => {
+const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) => {
   const { queues = [] } = props
 
   const renderQueueOption = (queue: Queue) => (
