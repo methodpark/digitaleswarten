@@ -159,7 +159,7 @@ def query_entry_state(place_id, queue_id, entry_id):
     entry = database_lookup.get_entry_if_exists(queue, entry_id)
 
     return jsonify(id=entry.id,
-                   ticket_number=entry.ticket_number,
+                   ticketNumber=entry.ticket_number,
                    name=entry.name,
                    state=entry.state)
 
