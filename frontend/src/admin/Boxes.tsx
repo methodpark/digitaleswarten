@@ -5,7 +5,7 @@ export const InnerBox: FunctionComponent<{name: string, inactive?: boolean}> = (
   const {name = '', inactive = false, children} = props;
 
   return (
-    <div className={'sub-area' + (inactive ? ' inactive' : '')}>
+    <div className={'sub-area' +  (inactive ? ' inactive' : '')}>
       <span className="area-heading">{name}</span>
 
       {children}
@@ -14,12 +14,12 @@ export const InnerBox: FunctionComponent<{name: string, inactive?: boolean}> = (
     );
 }
 
-export const SectionBox: FunctionComponent<{name: string, inactive?: boolean}> = (props) => {
+export const SectionBox: FunctionComponent<{name: string, inactive?: boolean, className?: string}> = (props) => {
 
-  const {name = '', inactive = false, children} = props;
+  const {name = '', inactive = false, className = '', children} = props;
 
   return (
-    <section className={inactive ? 'inactive' : ''}>
+    <section className={className + ' ' + (inactive ? 'inactive' : '')}>
       <h2>{name}</h2>
 
       {children}
