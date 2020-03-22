@@ -70,3 +70,19 @@ class TestBackendIntegration:
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
                                        json={'state': 'waiting'})
         assert entry_response.json()['state'] == 'waiting'
+
+    def test_get_waiting_state_of_entry(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryQueryWaitingState'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.get(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}?state')
+        assert entry_response.json()['state'] == 'waiting'
+
+    def test_get_called_state_entry(self, place_id, queue_id):
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryQueryCalledState'})
+        entry_id = entry_response.json()['id']
+        entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
+                                       json={'state': 'called'})
+        entry_response = requests.get(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}?state')
+        assert entry_response.json()['state'] == 'called'

@@ -181,6 +181,31 @@ def update_entry_state(place_id, queue_id, entry_id):
                    state=entry.state)
 
 
+@app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['GET'])
+def query_entry_state(place_id, queue_id, entry_id):
+    person_detail_level = request.args.get('state', None)
+    if person_detail_level is None:
+        abort(400)
+
+    place = Place.query.filter_by(id=place_id).first()
+    if place is None:
+        abort(404)
+
+    queue = Queue.query.filter_by(id=queue_id) \
+                       .filter_by(place=place).first()
+    if queue is None:
+        abort(404)
+
+    entry = Entry.query.filter_by(id=entry_id) \
+                       .filter_by(queue=queue).first()
+    if entry is None:
+        abort(404)
+
+    return jsonify(id=entry.id,
+                   ticket_number=entry.ticket_number,
+                   name=entry.name,
+                   state=entry.state)
+
 
 if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
