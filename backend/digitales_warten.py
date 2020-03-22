@@ -22,6 +22,7 @@ import random
 def hello_world():
     return 'Hey, we have Flask in a Docker container!'
 
+
 @app.route('/api/v1/places', methods=['POST'])
 @app.route('/places', methods=['POST'])
 def create_place():
@@ -37,6 +38,15 @@ def create_place():
     new_place = add_new_place_to_db(db, place_name, place_password)
 
     return jsonify(id=new_place.id, publicId=new_place.public_id, name=new_place.name)
+
+
+@app.route('/api/v1/places/<place_id>', methods=['GET'])
+@app.route('/places/<place_id>', methods=['GET'])
+def query_place(place_id):
+    place = database_lookup.get_place_if_exists(place_id)
+
+    return jsonify(id=place.id, name=place.name)
+
 
 
 @app.route('/api/v1/places/<place_id>/queues', methods=['POST'])
