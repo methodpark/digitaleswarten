@@ -10,6 +10,7 @@ from models.place import Place
 from models.queue import Queue
 from models.entry import Entry
 from utils.id_generator import generate_queue_id, generate_place_id, generate_entry_id
+from utils import validate_json
 
 from tornado.log import enable_pretty_logging
 import json
@@ -24,7 +25,7 @@ def create_place():
     if 'application/json' not in request.headers['Content-Type']:
         abort(400)
     data = request.json
-    if 'placeName' not in data:
+    if not validate_json.validate_places_post(data):
         abort(400)
     place_name = data['placeName']
     # TODO: Password creation
