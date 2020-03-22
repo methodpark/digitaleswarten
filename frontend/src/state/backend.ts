@@ -3,7 +3,7 @@ import { updateQueueCreator } from './queue';
 
 // Create a queue
 const CREATE_QUEUE = "@backend/CREATE_QUEUE";
-interface CreateQueueAction {
+export interface CreateQueueAction {
   type: typeof CREATE_QUEUE;
   placeId: string;
   name: string;
@@ -16,7 +16,7 @@ export const createQueueCreator = (placeId: string, name: string): CreateQueueAc
 
 // Adda person to a queue
 const CREATE_PERSON = '@backend/CREATE_PERSON'
-interface CreatePersonAction {
+export interface CreatePersonAction {
   type: typeof CREATE_PERSON;
   placeId: string;
   name: string;
@@ -49,7 +49,7 @@ export const fetchQueuesCreator = (placeId: string, personDetails: PersonDetails
 
 // Delete a queue
 const DELETE_QUEUE = "@backend/DELETE_QUEUE";
-interface DeleteQueueAction {
+export interface DeleteQueueAction {
   type: typeof DELETE_QUEUE;
   placeId: string;
   queueId: string;
