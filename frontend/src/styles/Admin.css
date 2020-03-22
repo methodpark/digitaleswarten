@@ -14,7 +14,6 @@ body {
 }
 
 #root {
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,6 +23,15 @@ body {
 .admin-view {
   display: flex;
   width: 100%;
+}
+
+:not(.inactive) {
+  transition: opacity 200ms;
+}
+
+.inactive {
+  opacity: 0.25;
+  transition: opacity 200ms;
 }
 
 .admin-view main {

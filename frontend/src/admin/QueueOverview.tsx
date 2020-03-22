@@ -17,7 +17,7 @@ const QueuesOverview = (props: AppState) => {
   );
 
   return (
-    <SectionBox name="Warteschlangen-Übersicht">
+    <SectionBox inactive={queues.length === 0} name="Warteschlangen-Übersicht">
       {queues.map(renderIndividualQueues)}
     </SectionBox>
   );
