@@ -2,23 +2,35 @@ import React from 'react';
 import { Queue as QueueModel } from '../model/queue';
 import { Person } from '../model/person';
 import { AppState } from '../state/state';
-import { connect } from 'react-redux';
+import { connect, DispatchProp } from 'react-redux';
 import { SectionBox, InnerBox } from './Boxes';
+import { UpdatePersonAction, callPersonCreator, removePersonCreator } from '../state/backend'
 
-const Queue = (props: {queue: QueueModel}) => {
-  const {entries = [], name=""} = props.queue;
+const PersonComponent = (props: {queueId: string, person: Person} & DispatchProp<UpdatePersonAction>) => {
+
+  const { person, queueId } = props;
+
+  const callPerson = () => props.dispatch(callPersonCreator('warmliebedeuten', queueId, person.id));
+  const deletePerson = () => props.dispatch(removePersonCreator('warmliebedeuten', queueId, person.id));
 
   const buttonArea = () => (<div>
-    <button>Aufrufen</button>
-    <button>Löschen, ohne aufzurufen</button>
+    <button onClick={callPerson}>Aufrufen</button>
+    <button onClick={deletePerson}>Löschen, ohne aufzurufen</button>
   </div>);
 
-  const personEntries = entries.map((person: Person) => (
+  return (
     <li key={person.id}>
       {person.name}
       {buttonArea()}
     </li>
-  ));
+  );
+}
+
+const QueueComponent = (props: {queue: QueueModel} & DispatchProp<UpdatePersonAction>) => {
+  const { queue, dispatch } = props;
+  const { entries = [], name="", id } = queue;
+
+  const personEntries = entries.map((person: Person) => <PersonComponent {...{ queueId: id, person, dispatch }} />);
 
   return (
     <InnerBox name={name}>
@@ -29,12 +41,12 @@ const Queue = (props: {queue: QueueModel}) => {
   );
 };
 
-const Queues = (props: AppState) => {
-  const {queues = []} = props;
+const Queues = (props: AppState & DispatchProp<UpdatePersonAction>) => {
+  const {queues = [], dispatch} = props;
 
   return (
     <SectionBox name="Warteschlangen">
-      {queues.map(queue => <Queue key={queue.id} queue={queue}></Queue>)}
+      {queues.map(queue => <QueueComponent key={queue.id} {...{queue, dispatch}} />)}
     </SectionBox>
   )
 }

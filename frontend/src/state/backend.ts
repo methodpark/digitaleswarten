@@ -3,7 +3,7 @@ import { updateQueueCreator } from './queue';
 
 // Create a queue
 const CREATE_QUEUE = "@backend/CREATE_QUEUE";
-interface CreateQueueAction {
+export interface CreateQueueAction {
   type: typeof CREATE_QUEUE;
   placeId: string;
   name: string;
@@ -16,7 +16,7 @@ export const createQueueCreator = (placeId: string, name: string): CreateQueueAc
 
 // Adda person to a queue
 const CREATE_PERSON = '@backend/CREATE_PERSON'
-interface CreatePersonAction {
+export interface CreatePersonAction {
   type: typeof CREATE_PERSON;
   placeId: string;
   name: string;
@@ -49,7 +49,7 @@ export const fetchQueuesCreator = (placeId: string, personDetails: PersonDetails
 
 // Delete a queue
 const DELETE_QUEUE = "@backend/DELETE_QUEUE";
-interface DeleteQueueAction {
+export interface DeleteQueueAction {
   type: typeof DELETE_QUEUE;
   placeId: string;
   queueId: string;
@@ -60,26 +60,26 @@ export const deleteQueuesCreator = (placeId: string, queueId: string): DeleteQue
   queueId
 });
 
-// Call a patient
-const CALL_PATIENT = "@backend/CALL_PATIENT";
-interface UpdatePatientAction {
-  type: typeof CALL_PATIENT | typeof REMOVE_PATIENT;
+// Call a person
+const CALL_PERSON = "@backend/CALL_PERSON";
+export interface UpdatePersonAction {
+  type: typeof CALL_PERSON | typeof REMOVE_PERSON;
   placeId: string;
   queueId: string;
   entryId: string;
 }
-export const callPatientCreator = (placeId: string, queueId: string, entryId: string): UpdatePatientAction => ({
-  type: CALL_PATIENT,
+export const callPersonCreator = (placeId: string, queueId: string, entryId: string): UpdatePersonAction => ({
+  type: CALL_PERSON,
   placeId,
   queueId,
   entryId
 });
 
 
-// Remove a patient
-const REMOVE_PATIENT = "@backend/REMOVE_PATIENT";
-export const removePatientCreator = (placeId: string, queueId: string, entryId: string): UpdatePatientAction => ({
-  type: REMOVE_PATIENT,
+// Remove a person
+const REMOVE_PERSON = "@backend/REMOVE_PERSON";
+export const removePersonCreator = (placeId: string, queueId: string, entryId: string): UpdatePersonAction => ({
+  type: REMOVE_PERSON,
   placeId,
   queueId,
   entryId
@@ -89,7 +89,7 @@ type BackendAction = CreateQueueAction |
   FetchQueuesAction |
   CreatePersonAction |
   DeleteQueueAction |
-  UpdatePatientAction;
+  UpdatePersonAction;
 
 const contentTypeJsonHeader = {
   'Content-Type': 'application/json'
@@ -125,11 +125,11 @@ function* queueSaga(action: BackendAction) {
   } else if (action.type === DELETE_QUEUE) {
     url = `/places/${action.placeId}/queues/${action.queueId}`;
     method = 'DELETE';
-  } else if (action.type === CALL_PATIENT) {
+  } else if (action.type === CALL_PERSON) {
     url = `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`;
     method = 'PUT';
     body = JSON.stringify({state: 'called'});
-  } else if (action.type === REMOVE_PATIENT) {
+  } else if (action.type === REMOVE_PERSON) {
     url = `/places/${action.placeId}/queues/${action.queueId}/entry/${action.entryId}`;
     method = 'DELETE';
   }
@@ -152,6 +152,6 @@ function* queueSaga(action: BackendAction) {
 
 export function* backendSaga() {
   yield all([
-    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PATIENT, REMOVE_PATIENT], queueSaga)
+    takeEvery([CREATE_QUEUE, FETCH_QUEUES, CREATE_PERSON, DELETE_QUEUE, CALL_PERSON, REMOVE_PERSON], queueSaga)
   ]);
 }

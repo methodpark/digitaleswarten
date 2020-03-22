@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import { AppState } from '../state/state'
 import { Queue } from '../model/queue'
 import { SectionBox } from './Boxes'
-import { connect } from 'react-redux'
-import { createPersonCreator } from '../state/backend'
+import { connect, DispatchProp } from 'react-redux'
+import { createPersonCreator, CreatePersonAction } from '../state/backend'
 import { useParams } from 'react-router-dom'
 
-const PersonManagement = (props: AppState & { dispatch: any }) => {
+const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) => {
   const { queues = [] } = props
 
   const renderQueueOption = (queue: Queue) => (
@@ -20,7 +20,6 @@ const PersonManagement = (props: AppState & { dispatch: any }) => {
     queues.length !== 0 ? queues[0].id : ''
   )
   const [personName, setPersonName] = useState('')
-  const optionalIndicator = <span className="optional-star">*</span>
   const locationParams = useParams() as {placeId: string};
 
   return (
@@ -36,7 +35,7 @@ const PersonManagement = (props: AppState & { dispatch: any }) => {
         </select>
 
         <label htmlFor="create-person-person-name">
-          Name:{optionalIndicator}
+          Name:
         </label>
         <input
           id="create-person-person-name"
@@ -45,18 +44,6 @@ const PersonManagement = (props: AppState & { dispatch: any }) => {
           placeholder="Name"
           onChange={ev => setPersonName(ev.target.value)}
         />
-
-        <label htmlFor="create-person-free-text">
-          Freitext:{optionalIndicator}
-        </label>
-        <textarea
-          id="create-person-free-text"
-          placeholder="Freitext"
-        ></textarea>
-
-        <span className="explanation">
-          {optionalIndicator}: optional, wird nicht auf dem server gespeichert{' '}
-        </span>
         <div className="button-area">
           <button
             onClick={() =>
