@@ -43,6 +43,8 @@ class TestBackendIntegration:
         assert queue_id
 
     def test_get_queue_state(self, place_id, queue_id):
+        requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryQueueState'})
         place_response = requests.get(f'{self.host}/places/{place_id}/queues?personDetails=short')
         assert place_response
 
@@ -52,8 +54,8 @@ class TestBackendIntegration:
     def test_create_entry_name_is_correct(self, entry_name):
         assert entry_name == 'TestEntryName'
 
-    def test_create_entry_ticket_number_is_3(self, entry_ticket):
-        assert entry_ticket == 3
+    def test_create_entry_ticket_number_is_4(self, entry_ticket):
+        assert entry_ticket == 4
 
     def test_change_entry_to_called(self, place_id, queue_id):
         entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
