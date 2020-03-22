@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>WarteFrei</title>
+  <meta name="description" content="Kein Warten im Wartezimmer">
+  <meta name="author" content="MethodPark Erlangen">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css">
+</head>
+
+<body>
+    <h1>WarteFrei</h1>
+
+    <h2>Die Challenge</h2>
+    Im Zuge der Ausbreitung des Coronavirus (SARS-CoV-2) werden zusätzliche Patienten deutsche Wartezimmer füllen. Durch die Versammlung kranker Menschen in den Wartezimmern der Artzpraxen stellen diese jedoch einen idealen Ansteckungsort für noch nicht Infizierte dar. Unser Ziel ist es, eine technische Lösung zu entwickeln, wie der Füllgrad von Wartezimmern im Idealfall auf 0 reduziert werden kann.
+
+    <h2>Motivation</h2>
+    In Zeiten der COVID-19 Krise sind die Wartebereiche der Arztpraxen besonders überlastet und Patienten sind bei einem Aufenthalt im Wartebereich einem erhöhten Infektionsrisiko ausgesetzt. Bei einer Pandemie besteht die Gefahr sich selbst oder andere Patienten im Wartezimmer anzustecken. Ziel ist es, die Wartezeit und damit die Ansteckungsgefahr auf ein Minimum zu reduzieren.
+
+    <h2>Lösungsansatz</h2>
+    Um die Wartebereiche der Arztpraxen zu entlasten, soll es möglich sein, über eine digitale Terminvergabe die Patienten in sicheren Umgebungen (Zuhause, Auto) aufzurufen. Patienten können über eine Webseite Ihren Status prüfen und sehen, wie viele Personen vor Ihnen dran sind.
+
+    Inspiration hierzu sind die gut bekannten Abreissnummern, wie man sie in deutschen Ämtern oder an Ticketschaltern wiederfindet:
+
+    Die Arztpraxis hat eine oder mehrere Warteschlangen, in die Patienten eingereiht werden. Die Patienten erhalten einen Überblick über die aktuelle Wartelage für ihre Warteschlange. Die Arztpraxis hat die Möglichkeit Patienten zu benachrichtigen, dass sie die Praxis jetzt oder bald betreten können. Hierdurch soll die Anzahl Personen, die sich in einem Wartezimmer aufhalten reduziert werden oder sogar komplett auf das Warten im Wartezimmer verzichtet werden.
+
+    <h2>Ablauf</h2>
+    Hauptaufgabe der Anwendung ist es, die Patienten digital aufzurufen. Ein Patient bekommt einen Zugangscode vermittelt (z.B. 22gwz). Diesen trägt er in einer Webapp ein und wird zu einer Übersichsseite navigiert. Dort kann er einsehen, wie viele Patienten vor ihm an der Reihe sind. Sobald die Praxis entscheidet den Patienten aufzurufen, wird dieser über eine Notification informiert, den Empfang der Praxis aufzusuchen und sich anzumelden.
+
+    Die Arztpraxis erfasst alle Patienten in einem Admin-Interface, um dort die Warteliste zu verarbeiten. Die Eingabe eines Namens und optimal noch der Handynummer, fügt diesen einer zuvor angelegt Warteliste hinzu. Je nach Bedarf lassen sich Patienten über eine Schaltfläche aufrufen, diese werden anschließend aus der Warteliste entfernt.
+
+    <h2>Ausbaustufen</h2>
+    <ol>
+        <li>
+            <b>Die Bewegungen des Patienten lassen sich orchestrieren</b>
+
+            Im Admin-Interface können die Patienten auf einen von drei Zustände gesetzt werden:
+
+            Wartet
+            In der Praxis
+            Abgeschlossen (Praxis verlassen)
+            Dies ist wichtig, denn viele Arztpraxen verwenden das Wartezimmer zusätzlich als Warteraum zwischen Behandlungen. Nach einem EKG werden Patienten beispielsweise in den Wartebereich zurückgeführt, bis sie zu einer die Behandlung abschließenden Blutabnahme aufgerufen werden. Das Ziel ist es, den Wartebereich nie zu überfüllen. Da in der Praxis anwesende Patienten potentiell wieder in den Warteraum zurückgeführt werden könnten, sollen neue Patienten erst nach verlassen der Praxis aufgerufen werden.
+        </li>
+        <li>
+            <b>Der Patient kann eine Rückmeldung über den Erhalt des Aufrufs an die Arztpraxis schicken</b>
+        </li>
+    </ol>
+</body>
+</html>

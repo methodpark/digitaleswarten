@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import request, abort, jsonify
+from flask import render_template, request, abort, jsonify
 from tornado.ioloop import IOLoop
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
@@ -18,7 +18,7 @@ enable_pretty_logging()
 
 @app.route('/')
 def hello_world():
-    return 'Hey, we have Flask in a Docker container!'
+    return render_template('index.html')
 
 @app.route('/places', methods=['POST'])
 def create_place():
