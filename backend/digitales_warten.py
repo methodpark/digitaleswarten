@@ -11,6 +11,7 @@ from models.queue import Queue
 from models.entry import Entry
 from utils.id_generator import generate_queue_id, generate_place_id, generate_entry_id
 from utils import handle_json
+from utils import database_lookup
 
 from tornado.log import enable_pretty_logging
 import json
@@ -31,10 +32,10 @@ def create_place():
     place_password = 'Admin'
 
     place_id = generate_place_id()
-
     new_place = Place(id=place_id, password=place_password, name=place_name)
     db.session.add(new_place)
     db.session.commit()
+
     return jsonify(id=new_place.id, name=new_place.name)
 
 
@@ -43,14 +44,15 @@ def create_queue(place_id):
     data = handle_json.get_queue_json_data(request)
     queue_name = data['queueName']
 
-    place = Place.query.filter_by(id=place_id).first()
-    if place is None:
-        abort(404)
-    # Check password here
+    place = database_lookup.get_place_if_exists(place_id)
+
+    # TODO: Check password here
+
     queue_id = generate_queue_id(queue_name)
     queue = Queue(id=queue_id, name=queue_name, place=place)
     db.session.add(queue)
     db.session.commit()
+
     return jsonify(id=queue.id, name=queue.name)
 
 @app.route('/places/<place_id>/queues', methods=['GET'])
@@ -59,9 +61,8 @@ def get_queue_state(place_id):
     if person_detail_level not in ['short', 'full']:
         abort(400)
 
-    place = Place.query.filter_by(id=place_id).first()
-    if place is None:
-        abort(404)
+
+    place = database_lookup.get_place_if_exists(place_id)
     
     attached_queues = Queue.query.filter_by(place=place).all()
     if not len(attached_queues):
@@ -102,13 +103,9 @@ def get_full_entry(entry):
 
 @app.route('/places/<place_id>/queues/<queue_id>', methods=['DELETE'])
 def delete_queue(place_id, queue_id):
-    place = Place.query.filter_by(id=place_id).first()
-    if place is None:
-        abort(404)
-    queue = Queue.query.filter_by(id=queue_id) \
-                       .filter_by(place=place).first()
-    if queue is None:
-        abort(404)
+    place = database_lookup.get_place_if_exists(place_id)
+    queue = database_lookup.get_queue_if_exists(place, queue_id)
+
     db.session.delete(queue)
     db.session.commit()
     return ''
@@ -118,12 +115,8 @@ def add_entry(place_id, queue_id):
     data = handle_json.get_entries_json_data(request)
     entry_name = data['name']
 
-    place = Place.query.filter_by(id=place_id).first()
-    if place is None:
-        abort(404)
-    queue = Queue.query.filter_by(id=queue_id).filter_by(place=place).first()
-    if queue is None:
-        abort(404)
+    place = database_lookup.get_place_if_exists(place_id)
+    queue = database_lookup.get_queue_if_exists(place, queue_id)
 
     entry_id = generate_entry_id(entry_name)
     largest_previous_entry = db.session.query(Entry).filter_by(queue=queue).order_by(desc(Entry.ticket_number)).limit(1).first()
@@ -135,19 +128,10 @@ def add_entry(place_id, queue_id):
 
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
 def delete_entry(place_id, queue_id, entry_id):
-    place = Place.query.filter_by(id=place_id).first()
-    if place is None:
-        abort(404)
+    place = database_lookup.get_place_if_exists(place_id)
+    queue = database_lookup.get_queue_if_exists(place, queue_id)
+    entry = database_lookup.get_entry_if_exists(place, queue, entry_id)
 
-    queue = Queue.query.filter_by(id=queue_id) \
-                       .filter_by(place=place).first()
-    if queue is None:
-        abort(404)
-
-    entry = Entry.query.filter_by(id=entry_id) \
-                       .filter_by(queue=queue).first()
-    if entry is None:
-        abort(404)
     db.session.delete(entry)
     db.session.commit()
     return ''
@@ -157,19 +141,9 @@ def update_entry_state(place_id, queue_id, entry_id):
     data = handle_json.get_entries_state_json_data(request)
     new_entry_state = data['state']
 
-    place = Place.query.filter_by(id=place_id).first()
-    if place is None:
-        abort(404)
-
-    queue = Queue.query.filter_by(id=queue_id) \
-                       .filter_by(place=place).first()
-    if queue is None:
-        abort(404)
-
-    entry = Entry.query.filter_by(id=entry_id) \
-                       .filter_by(queue=queue).first()
-    if entry is None:
-        abort(404)
+    place = database_lookup.get_place_if_exists(place_id)
+    queue = database_lookup.get_queue_if_exists(place, queue_id)
+    entry = database_lookup.get_entry_if_exists(place, queue, entry_id)
 
     if not entry.set_state(new_entry_state):
         abort(400)
