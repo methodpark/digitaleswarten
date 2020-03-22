@@ -20,7 +20,7 @@ const PlaceDetails = (props: AppState & DispatchProp<FetchPlaceDetailsAction>) =
       <ul>
         <li>Halten Sie <Link to={`/admin/${locationParams.placeId}`}>den Link zu dieser Seite</Link> <b>geheim</b>, er wurde <b>nur für Sie erstellt</b>.</li>
         <li><b>Speichern Sie diese Seite als Lesezeichen</b>. Wenn Sie die Seite verlassen, können Sie ansonsten vielleicht nicht mehr zurückkehren.</li>
-        { publicId === '' ? <></> : <li>Ihre Wartebereichsnummer lautet <b>{publicId}</b>. Teilen Sie diese Ihren wartenden zusammen mit deren Ticket-Nummer mit oder nutzen Sie <Link to={`/queues/${publicId}`}>diesen Link</Link>.</li> }
+        { publicId === '' ? <></> : <li>Ihre Wartebereichsnummer lautet <b>{publicId}</b>. Teilen Sie diese Ihren wartenden zusammen mit deren Ticket-Nummer mit oder verteilen Sie <Link to={`/queues/${publicId}`}>diesen Link</Link>.</li> }
         { queues.length > 0 ? <></> : <li>Beginnen Sie, indem Sie unten eine Warteschlange anlegen.</li>}
       </ul>
     </SectionBox>
