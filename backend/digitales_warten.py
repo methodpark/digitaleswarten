@@ -124,7 +124,7 @@ def add_entry(place_id, queue_id):
     if queue is None:
         abort(404)
     data = request.json
-    if 'name' not in data:
+    if not validate_json.validate_entries_post(data):
         abort(400)
     entry_name = data['name']
     entry_id = generate_entry_id(entry_name)
