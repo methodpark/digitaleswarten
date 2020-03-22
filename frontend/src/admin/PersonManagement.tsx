@@ -24,11 +24,13 @@ const PersonManagement = (props: AppState & DispatchProp<CreatePersonAction>) =>
     const name = nameRef.current?.value;
     const queueId = queueRef.current?.value;
 
-    if(name === undefined || name === '' || queueId === undefined){
+    if(nameRef.current === null || name === undefined || name === '' || queueId === undefined){
       return;
     }
 
     props.dispatch(createPersonCreator(locationParams.placeId, name, queueId));
+    nameRef.current.name = '';
+
   }
 
   return (
