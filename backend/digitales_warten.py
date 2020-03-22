@@ -6,8 +6,8 @@ from tornado.httpserver import HTTPServer
 
 from app import app, db
 from models.place import add_new_place_to_db, add_new_place_to_db_with_place_id
-from models.queue import Queue, add_new_queue_to_db
-from models.entry import Entry, add_new_entry_to_db
+from models.queue import add_new_queue_to_db
+from models.entry import add_new_entry_to_db
 from utils import handle_json
 from utils import database_lookup
 from utils import handle_get_queries
@@ -70,9 +70,14 @@ def get_queue_state(place_id):
     entry_level_detail = handle_get_queries.get_entry_detail_level(request) 
 
     if 'short' == entry_level_detail:
-        place = database_lookup.get_place_by_public_id(place_id)
+        try:
+            place = database_lookup.get_place_by_public_id(int(place_id))
+        except ValueError:
+            abort(400)
     elif 'full' == entry_level_detail:
         place = database_lookup.get_place_if_exists(place_id)
+    else:
+        abort(400)
     return json.dumps(gather_places_queues_state(place, entry_level_detail))
 
 def gather_places_queues_state(place, entry_level_detail):
