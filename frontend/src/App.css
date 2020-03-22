@@ -218,10 +218,25 @@ input:focus {
   height: 100%;
   width: 100%;
   flex: 1;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   position: relative;
+  flex-wrap: wrap;
+}
+
+.queue-wrapper {
+  border-radius: 6px;
+  padding: 10px 10px;
+  margin: 20px 20px;
+  border: solid rgb(150, 150, 150) 1px;
+  height: 550px;
+  overflow-y: auto;
+}
+
+.queue-wrapper .queue-header {
+  font-size: 35px;
+  text-align: center;
 }
 
 .queueboard-patient-entry {
@@ -234,10 +249,6 @@ input:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-div.queueboard-patient-entry:last-child {
-  margin-bottom: 80px;
 }
 
 .queueboard-patient-entry>img {
