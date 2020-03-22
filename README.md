@@ -1,5 +1,5 @@
 # WarteFrei
-Teil des [Wir Vs Virus Hackathon](https://wirvsvirushackathon.org/). 
+Als Teil des [Wir Vs Virus Hackathon](https://wirvsvirushackathon.org/) findet ihr unsere **WarteFrei** Weboberfläche unter: https://wartefrei.de/.
 
 ## Die Challenge
 Im Zuge der Ausbreitung des Coronavirus (SARS-CoV-2) werden zusätzliche Patienten deutsche Wartezimmer füllen.
