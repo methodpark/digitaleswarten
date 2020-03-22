@@ -54,8 +54,18 @@ class TestBackendIntegration:
     def test_create_entry_name_is_correct(self, entry_name):
         assert entry_name == 'TestEntryName'
 
-    def test_create_entry_ticket_number_is_4(self, entry_ticket):
-        assert entry_ticket == 1
+    def test_create_entry_ticket_number_is_4(self, place_id):
+        queue_response = requests.post(f'{self.host}/places/{place_id}/queues',
+                                       json={'queueName': 'TestQueueTicketNumber'})
+        queue_id = queue_response.json()['id']
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryTicketNumber_1'})
+        entry_ticket_number = entry_response.json()['ticketNumber']
+        assert entry_ticket_number == 1
+        entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
+                                        json={'name': 'TestEntryTicketNumber_2'})
+        entry_ticket_number = entry_response.json()['ticketNumber']
+        assert entry_ticket_number == 2
 
     def test_change_entry_to_called(self, place_id, queue_id):
         entry_response = requests.post(f'{self.host}/places/{place_id}/queues/{queue_id}/entries',
