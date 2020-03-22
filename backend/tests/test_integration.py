@@ -70,3 +70,11 @@ class TestBackendIntegration:
         entry_response = requests.put(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}',
                                        json={'state': 'waiting'})
         assert entry_response.json()['state'] == 'waiting'
+
+    def test_create_place_json_incorrect_field__return400(self):
+        place_response = requests.post(f'{self.host}/places', json={'incorrectJSONField': 'aa'})
+        assert place_response.status_code == 400
+
+    def test_create_place_json_incorrect_type__return400(self):
+        place_response = requests.post(f'{self.host}/places', json={'placeName': 3})
+        assert place_response.status_code == 400
