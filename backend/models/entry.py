@@ -1,4 +1,9 @@
+from flask import abort
+from sqlalchemy import desc
+from sqlalchemy.exc import IntegrityError
+
 from app import db
+from utils.id_generator import generate_entry_id
 
 class Entry(db.Model):
     id = db.Column(db.String, primary_key=True)
@@ -24,3 +29,27 @@ class Entry(db.Model):
 
     def __repr__(self):
         return f'<Entry {id}>'
+
+
+def add_new_entry_to_db(db, queue, entry_name):
+    """
+    Creates a new queue with queue_name and returns.
+    """
+    entry_id = generate_entry_id(entry_name)
+    largest_previous_entry = db.session.query(Entry) \
+                                       .filter_by(queue=queue) \
+                                       .order_by(desc(Entry.ticket_number)) \
+                                       .limit(1) \
+                                       .first()
+    if largest_previous_entry is None:
+        ticket_number = 1
+    else:
+        ticket_number =largest_previous_entry.ticket_number + 1
+
+    try:
+        new_entry = Entry(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
+        db.session.add(new_entry)
+        db.session.commit()
+    except IntegrityError:
+        abort(500)
+    return new_entry 
