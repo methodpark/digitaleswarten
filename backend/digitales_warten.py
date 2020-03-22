@@ -5,11 +5,9 @@ from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 
 from app import app, db
-from sqlalchemy import desc
-from models.place import Place
-from models.queue import Queue
-from models.entry import Entry
-from utils.id_generator import generate_queue_id, generate_place_id, generate_entry_id
+from models.place import add_new_place_to_db
+from models.queue import Queue, add_new_queue_to_db
+from models.entry import Entry, add_new_entry_to_db
 from utils import handle_json
 from utils import database_lookup
 
@@ -31,10 +29,7 @@ def create_place():
     # TODO: Password creation
     place_password = 'Admin'
 
-    place_id = generate_place_id()
-    new_place = Place(id=place_id, password=place_password, name=place_name)
-    db.session.add(new_place)
-    db.session.commit()
+    new_place = add_new_place_to_db(db, place_name, place_password)
 
     return jsonify(id=new_place.id, name=new_place.name)
 
@@ -48,12 +43,10 @@ def create_queue(place_id):
 
     # TODO: Check password here
 
-    queue_id = generate_queue_id(queue_name)
-    queue = Queue(id=queue_id, name=queue_name, place=place)
-    db.session.add(queue)
-    db.session.commit()
+    new_queue = add_new_queue_to_db(db, place, queue_name)
 
-    return jsonify(id=queue.id, name=queue.name)
+    return jsonify(id=new_queue.id, name=new_queue.name)
+
 
 @app.route('/places/<place_id>/queues', methods=['GET'])
 def get_queue_state(place_id):
@@ -111,20 +104,18 @@ def delete_queue(place_id, queue_id):
     return ''
 
 @app.route('/places/<place_id>/queues/<queue_id>/entries', methods=['POST'])
-def add_entry(place_id, queue_id):
+def create_entry(place_id, queue_id):
     data = handle_json.get_entries_json_data(request)
     entry_name = data['name']
 
     place = database_lookup.get_place_if_exists(place_id)
     queue = database_lookup.get_queue_if_exists(place, queue_id)
 
-    entry_id = generate_entry_id(entry_name)
-    largest_previous_entry = db.session.query(Entry).filter_by(queue=queue).order_by(desc(Entry.ticket_number)).limit(1).first()
-    ticket_number = largest_previous_entry.ticket_number + 1 if largest_previous_entry else 1
-    entry = Entry(id=entry_id, name=entry_name, queue=queue, ticket_number=ticket_number)
-    db.session.add(entry)
-    db.session.commit()
-    return jsonify(id=entry_id, name=entry_name, ticketNumber=ticket_number)
+    new_entry = add_new_entry_to_db(db, queue, entry_name)
+
+    return jsonify(id=new_entry.id,
+                   name=new_entry.name,
+                   ticketNumber=new_entry.ticket_number)
 
 @app.route('/places/<place_id>/queues/<queue_id>/entries/<entry_id>', methods=['DELETE'])
 def delete_entry(place_id, queue_id, entry_id):
@@ -151,7 +142,6 @@ def update_entry_state(place_id, queue_id, entry_id):
     return jsonify(ticketNumber=entry.ticket_number,
                    name=entry.name,
                    state=entry.state)
-
 
 
 if __name__ == '__main__':
