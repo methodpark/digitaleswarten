@@ -42,7 +42,7 @@ def create_queue(place_id):
     if 'application/json' not in request.headers['Content-Type']:
         abort(400)
     data = request.json
-    if 'queueName' not in data:
+    if not validate_json.validate_queues_post(data):
         abort(400)
     place = Place.query.filter_by(id=place_id).first()
     if place is None:

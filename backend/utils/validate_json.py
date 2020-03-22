@@ -12,3 +12,9 @@ def validate_places_post(data):
         'placeName': 'string'
     }
     return validate_schema(data, schema)
+
+def validate_queues_post(data):
+    schema = {
+        'queueName': 'string'
+    }
+    return validate_schema(data, schema)
