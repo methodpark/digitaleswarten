@@ -142,3 +142,8 @@ class TestBackendIntegration:
                                        json={'state': 'called'})
         entry_response = requests.get(f'{self.host}/places/{place_id}/queues/{queue_id}/entries/{entry_id}?state')
         assert entry_response.json()['state'] == 'called'
+
+    def test_query_queue_state(self, place_id):
+        place_response = requests.get(f'{self.host}/places/{place_id}')
+
+        assert place_id == place_response.json()['id']
