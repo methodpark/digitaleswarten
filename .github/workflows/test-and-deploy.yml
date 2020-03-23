@@ -35,6 +35,8 @@ jobs:
     needs: test
 
     runs-on: ubuntu-latest
+
+    # Only publish Docker images for push events to master or v* tags (see above)
     if: github.event_name == 'push'
 
     steps:
