@@ -60,6 +60,9 @@ jobs:
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
 
+          # FIXME: remove, temp hack to simulate a push to master on the github-actions branch
+          [ "$VERSION" == "github-actions" ] && VERSION=latest
+
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
