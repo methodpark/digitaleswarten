@@ -19,7 +19,7 @@ Authentifizierung durchführen (kommt erst später)
 
 HTTP-GET /places/\<place-id\>/bearerToken?password=\<pass\>
 
-> Answer: 200/OK\
+> Answer: 200/OK;\
 > JSON-Payload: { bearerToken: string; }
 
 
@@ -50,7 +50,7 @@ Zustand Wartelokalität abfragen
 
 Wartelokalität Namensspeichermethode setzen
 -------------------------------------------
-> HTTP-GET: /places/\<place-id>
+> HTTP-PUT: /places/\<place-id>
 > JSON-Payload: { nameStorage: boolean; }
 >
 > Answer: 200/OK;\
