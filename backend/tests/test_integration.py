@@ -174,3 +174,21 @@ class TestBackendIntegration:
         assert private_place_response.json()[0]['id'] == queue_id
         assert place_response.json()['publicId']
  
+
+    def test_place_name_storage(self):
+        place_response = requests.post(f'{self.host}/places', json={'placeName': 'TestPraxisStorageMethod'})
+        place_id = place_response.json()['id']
+        place_name_storage_method = place_response.json()['nameStorage']
+        assert True == place_name_storage_method
+        place_response = requests.get(f'{self.host}/places/{place_id}')
+        place_name_storage_method = place_response.json()['nameStorage']
+        assert place_id == place_response.json()['id']
+        assert True == place_name_storage_method
+        place_response = requests.put(f'{self.host}/places/{place_id}', json={'nameStorage': False})
+        assert place_id == place_response.json()['id']
+        place_name_storage_method = place_response.json()['nameStorage']
+        assert False == place_name_storage_method
+        place_name_storage_method = place_response.json()['nameStorage']
+        assert place_id == place_response.json()['id']
+        assert False == place_name_storage_method
+
