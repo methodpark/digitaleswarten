@@ -48,3 +48,14 @@ def get_entries_state_json_data(request):
         abort(400)
     return data
 
+
+
+def get_name_storage(request):
+    """
+    Returns the name should be stored or throws 400 otherwise.
+    """
+    validate_json.has_json_header(request)
+    data = request.json
+    if not validate_json.validate_put_name_storage(data):
+        abort(400)
+    return data

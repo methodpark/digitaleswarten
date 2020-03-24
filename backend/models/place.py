@@ -11,9 +11,15 @@ class Place(db.Model):
     id = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     name = db.Column(db.String)
+    name_storage_method = True
 
     def __repr__(self):
         return f'<Place {self.id}>'
+
+    def set_storage_method(self, db, new_state):
+        self.name_storage_method = new_state
+        db.session.commit()
+        return self.name_storage_method
 
 def generate_default_place():
     """

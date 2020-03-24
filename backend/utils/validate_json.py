@@ -66,3 +66,14 @@ def validate_entry_state_set(data):
         },
     }
     return validate_schema(data, schema)
+
+
+def validate_put_name_storage(data):
+    schema = {
+        'type': 'object',
+        'properties':
+        {
+            'nameStorage': {'type': 'boolean'},
+        },
+    }
+    return validate_schema(data, schema)
