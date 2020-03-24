@@ -40,7 +40,7 @@ def create_place():
     return jsonify(id=new_place.id,
                    publicId=new_place.public_id,
                    name=new_place.name,
-                   nameStorage=new_place.name_storage_method)
+                   nameStorage=new_place.is_name_not_cleartext)
 
 
 @app.route('/api/v1/places/<place_id>', methods=['GET'])
@@ -54,7 +54,7 @@ def query_place(place_id):
     return jsonify(id=place.id,
                    publicId=place.public_id,
                    name=place.name,
-                   nameStorage=place.name_storage_method)
+                   nameStorage=place.is_name_not_cleartext)
 
 
 @app.route('/api/v1/places/<place_id>', methods=['PUT'])
@@ -72,7 +72,7 @@ def set_name_storage(place_id):
     return jsonify(id=place.id,
                    publicId=place.public_id,
                    name=place.name,
-                   nameStorage=place.name_storage_method)
+                   nameStorage=place.is_name_not_cleartext)
 
 
 
