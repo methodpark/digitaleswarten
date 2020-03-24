@@ -30,7 +30,31 @@ Wartelokalität anlegen
 > JSON-Payload: { placeName: string; }
 > 
 > Answer: 200/OK;\
-> JSON-Payload: { id: string; publicId: number; placeName: string; }
+> JSON-Payload: { id: string; publicId: number; placeName: string; nameStorage: boolean; }
+>
+> Answer: 4xx/Not ok
+>
+> Answer 401/Not authorized
+
+Zustand Wartelokalität abfragen
+-------------------------------
+
+> HTTP-GET: /places/\<place-id>
+>
+> Answer: 200/OK;\
+> JSON-Payload: { id: string; publicId: number; placeName: string; nameStorage: boolean; }
+>
+> Answer: 4xx/Not ok
+>
+> Answer 401/Not authorized
+
+Wartelokalität Namensspeichermethode setzen
+-------------------------------------------
+> HTTP-GET: /places/\<place-id>
+> JSON-Payload: { nameStorage: boolean; }
+>
+> Answer: 200/OK;\
+> JSON-Payload: { id: string; publicId: number; placeName: string; nameStorage: boolean }
 >
 > Answer: 4xx/Not ok
 >
