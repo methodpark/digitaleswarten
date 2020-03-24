@@ -135,4 +135,10 @@ span.optional-star {
   min-height: 125px;
 }
 
-
+.admin-footer {
+  position: fixed;
+  text-align: center;
+  background-color: white;
+  width: 100%;
+  bottom: 0;
+}

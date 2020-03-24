@@ -22,7 +22,7 @@ class Admin extends React.Component<AdminProps> {
   }
 
   render() {
-      return (
+    return (
       <>
         <h1>Warte Frei</h1>
         <div className="admin-view">
@@ -37,6 +37,9 @@ class Admin extends React.Component<AdminProps> {
             <QueueManagement />
           </aside>
         </div>
+        <footer className="admin-footer">
+          <a href={process.env.PUBLIC_URL + '/impressum.html'}>Impressum</a>
+        </footer>
       </>
     );
   }

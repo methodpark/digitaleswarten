@@ -92,18 +92,24 @@
 }
 
 input:focus {
-    outline-width: 0;
+  outline-width: 0;
 }
 
 .welcome-patient-footer {
   display: flex;
+  align-items: center;
   justify-content: center;
   width: 100%;
   background: rgba(3, 3, 3, 0.4);
 }
 
+.welcome-patient-footer > a {
+  color: black
+}
+
 .welcome-patient-virus-logo {
   width: 240px;
+  margin-right: 32px;
 }
 
 

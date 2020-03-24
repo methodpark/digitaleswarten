@@ -45,9 +45,8 @@ export function PatientWelcome() {
           className="welcome-patient-virus-logo"
           src={virusLogo}
           alt="Wir VS Virus Logo"/>
+        <a href={process.env.PUBLIC_URL + '/impressum.html'}>Impressum</a>
       </footer>
-  </div>
+    </div>
   );
 }
-
-

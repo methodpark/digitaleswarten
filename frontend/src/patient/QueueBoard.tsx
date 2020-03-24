@@ -52,6 +52,9 @@ export function QueueBoard(props: any) {
         )
       })}
     </div>
+    <footer className="queue-footer">
+      <a href={process.env.PUBLIC_URL + '/impressum.html'}>Impressum</a>
+    </footer>
     </>
   );
 }

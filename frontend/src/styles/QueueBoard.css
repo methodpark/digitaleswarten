@@ -55,3 +55,11 @@
 .ticket-number {
   font-size: 2rem;
 }
+
+.queue-footer {
+  position: fixed;
+  text-align: center;
+  background-color: white;
+  width: 100%;
+  bottom: 0;
+}
