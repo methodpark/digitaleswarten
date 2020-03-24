@@ -1,7 +1,7 @@
 from flask import abort
 def get_entry_detail_level(request):
     """
-    Returns wether the detail level of an entry should be short or full.
+    Returns whether the detail level of an entry should be short or full.
     """
     entry_level_detail = request.args.get('personDetails', None)
     if entry_level_detail  not in ['short', 'full']:
@@ -11,7 +11,7 @@ def get_entry_detail_level(request):
 
 def get_entry_state_query(request):
     """
-    Returns wether the entry state is requested or throws 400 otherwise.
+    Returns whether the entry state is requested or throws 400 otherwise.
     """
     state_queried = request.args.get('state', None)
     if state_queried is None:
